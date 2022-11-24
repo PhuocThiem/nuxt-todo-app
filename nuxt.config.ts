@@ -5,5 +5,12 @@ export default defineNuxtConfig({
     public: {
       baseURL: process.env.APP_BASE_URL || "https://63735c53348e9472990a3d1a.mockapi.io/"
     }
-  }
+  },
+  css: ['~/assets/css/main.css'],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
 })

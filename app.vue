@@ -1,14 +1,8 @@
 <template>
-  <div>
-    <h1 v-if="pending">Loading.........</h1>
-    <div v-else>
-      <h1 v-if="error">Error</h1>
-      <div v-else>
-        <li v-for="ticket in data as Ticket[]" :key="ticket.id">
-          {{ ticket.title }}
-        </li>
-      </div>
-    </div>
+  <div class="flex flex-col justify-between h-screen">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </div>
 </template>
 
