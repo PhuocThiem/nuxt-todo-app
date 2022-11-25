@@ -19,11 +19,10 @@
             >Sort by title</label
           >
           <select
-            name=""
-            id=""
+            v-model="selectedSortTitle"
             class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none"
           >
-            <option value="" disabled hidden selected>Select sort type</option>
+            <!-- <option value="" disabled hidden selected>Select sort type</option> -->
             <option v-for="type in SortType" :key="type.id" :value="type.id">
               {{ type.type }}
             </option>
@@ -34,8 +33,6 @@
             >Sort by expired date</label
           >
           <select
-            name=""
-            id=""
             class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none"
           >
             <option value=" " disabled hidden selected>Select sort type</option>
@@ -70,6 +67,7 @@ const { baseURL } = config.public;
 const tableData = ref<Ticket[]>([]);
 const searchText = ref<String>("");
 const timeoutID = ref<any>(null);
+const selectedSortTitle = ref<Number>(SortType[0]?.id);
 
 const { data, error } = await useFetch(baseURL + ENDPOINT.TICKETS, {
   onResponse({ response }) {
@@ -84,18 +82,46 @@ const { data, error } = await useFetch(baseURL + ENDPOINT.TICKETS, {
 watch(searchText, (newValue, oldValue) => {
   clearTimeout(timeoutID.value);
   timeoutID.value = setTimeout(() => {
-    console.log("search Text", searchText.value);
     if (!searchText.value) {
-      tableData.value = data.value as Ticket[];
+      _resetTableData();
       return;
     }
     searchByText(searchText.value.toString());
   }, 1000);
 });
 
+watch(selectedSortTitle, () => {
+  sortByTitle();
+});
+
 function searchByText(text: string) {
   tableData.value = (data.value as Array<Ticket>).filter((ticket: Ticket) =>
     ticket?.title.includes(text)
   );
+}
+
+function sortByTitle() {
+  switch (selectedSortTitle.value) {
+    case SortType[1]?.id:
+      tableData.value = _sortArrAsc([...(data.value as Array<Ticket>)]);
+      break;
+    case SortType[2]?.id:
+      tableData.value = _sortArrDsc([...(data.value as Array<Ticket>)]);
+      break;
+    default:
+      _resetTableData();
+  }
+}
+
+function _resetTableData() {
+  tableData.value = data.value as Ticket[];
+}
+
+function _sortArrAsc(arr: Ticket[]) {
+  return arr.sort((a: Ticket, b: Ticket) => (a?.title > b?.title ? 1 : -1));
+}
+
+function _sortArrDsc(arr: Ticket[]) {
+  return arr.sort((a: Ticket, b: Ticket) => (a?.title > b?.title ? -1 : 1));
 }
 </script>
