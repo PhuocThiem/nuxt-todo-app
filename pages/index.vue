@@ -3,7 +3,8 @@ import { ENDPOINT } from '~~/constants/endpoint';
 import { useTicketStore } from '~~/store/ticket';
 import { Ticket } from '~~/store/models/ticket';
 import { PageTitle, Table, Icon, ICON_PATH } from '~~/components';
-import { SortType } from '~~/constants/sortType';
+import { SORT_TYPE, SORT_FIELD } from '~~/constants/sortType';
+import { sortArrAsc, sortArrDsc, sortExpiredAsc, sortExpiredDsc } from '~~/utils/common';
 
 const ticket = useTicketStore();
 
@@ -13,8 +14,8 @@ const { baseURL } = config.public;
 const tableData = ref<Ticket[]>([]);
 const searchText = ref<String>('');
 const timeoutID = ref<any>(null);
-const selectedSortTitle = ref<Number>(SortType[0]?.id);
-const selectedSortExpired = ref<Number>(SortType[0]?.id);
+const selectedSortTitle = ref<Number>(SORT_TYPE[0]?.id);
+const selectedSortExpired = ref<Number>(SORT_TYPE[0]?.id);
 
 const { data, error } = await useFetch(ENDPOINT.TICKETS, {
   method: 'GET',
@@ -40,38 +41,25 @@ watch(searchText, (newValue, oldValue) => {
 });
 
 watch(selectedSortTitle, () => {
-  sortByTitle();
+  sortByField(selectedSortTitle.value as number, SORT_FIELD.TITLE);
 });
 
 watch(selectedSortExpired, () => {
-  sortByExpiredDate();
+  sortByField(selectedSortExpired.value as number, SORT_FIELD.EXPIRED_DATE);
 });
 
 function searchByText(text: string) {
   tableData.value = (data.value as Array<Ticket>).filter((ticket: Ticket) => ticket?.title.includes(text));
 }
 
-function sortByTitle() {
-  switch (selectedSortTitle.value) {
-    case SortType[1]?.id:
-      tableData.value = _sortArrAsc([...(data.value as Array<Ticket>)]);
+function sortByField(sortType: number, sortField: string) {
+  const newArr = [...(data.value as Ticket[])];
+  switch (sortType) {
+    case SORT_TYPE[1]?.id:
+      tableData.value = sortField === SORT_FIELD.TITLE ? sortArrAsc(newArr) : sortExpiredAsc(newArr);
       break;
-    case SortType[2]?.id:
-      tableData.value = _sortArrDsc([...(data.value as Array<Ticket>)]);
-      break;
-    default:
-      _resetTableData();
-  }
-}
-
-function sortByExpiredDate() {
-  console.log('sort by Expire date', selectedSortExpired.value);
-  switch (selectedSortExpired.value) {
-    case SortType[1]?.id:
-      tableData.value = _sortExpiredAsc([...(data.value as Array<Ticket>)]);
-      break;
-    case SortType[2]?.id:
-      tableData.value = _sortExpiredDsc([...(data.value as Array<Ticket>)]);
+    case SORT_TYPE[2]?.id:
+      tableData.value = sortField === SORT_FIELD.TITLE ? sortArrDsc(newArr) : sortExpiredDsc(newArr);
       break;
     default:
       _resetTableData();
@@ -80,26 +68,6 @@ function sortByExpiredDate() {
 
 function _resetTableData() {
   tableData.value = data.value as Ticket[];
-}
-
-function _sortArrAsc(arr: Ticket[]) {
-  return arr.sort((a: Ticket, b: Ticket) => (a?.title > b?.title ? 1 : -1));
-}
-
-function _sortArrDsc(arr: Ticket[]) {
-  return arr.sort((a: Ticket, b: Ticket) => (a?.title > b?.title ? -1 : 1));
-}
-
-function _sortExpiredAsc(arr: Ticket[]) {
-  return arr.sort((a: Ticket, b: Ticket) =>
-    new Date(a.ExpiredDate).getTime() > new Date(b.ExpiredDate).getTime() ? 1 : -1
-  );
-}
-
-function _sortExpiredDsc(arr: Ticket[]) {
-  return arr.sort((a: Ticket, b: Ticket) =>
-    new Date(a.ExpiredDate).getTime() > new Date(b.ExpiredDate).getTime() ? -1 : 1
-  );
 }
 </script>
 
@@ -123,7 +91,7 @@ function _sortExpiredDsc(arr: Ticket[]) {
             v-model="selectedSortTitle"
             class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
           >
-            <option v-for="type in SortType" :key="type.id" :value="type.id">
+            <option v-for="type in SORT_TYPE" :key="type.id" :value="type.id">
               {{ type.type }}
             </option>
           </select>
@@ -134,7 +102,7 @@ function _sortExpiredDsc(arr: Ticket[]) {
             v-model="selectedSortExpired"
             class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
           >
-            <option v-for="type in SortType" :key="type.id" :value="type.id">
+            <option v-for="type in SORT_TYPE" :key="type.id" :value="type.id">
               {{ type.type }}
             </option>
           </select>
