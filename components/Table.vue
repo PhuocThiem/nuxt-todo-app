@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="ticket in ticketsList" :key="ticket?.id">
+      <tr v-for="ticket in ticketsList" :key="ticket?.id" class="items-center">
         <td>
           {{ ticket?.title }}
         </td>
@@ -23,7 +23,7 @@
         <td class="text-center">
           {{ moment(ticket?.ExpiredDate).format("L") }}
         </td>
-        <td class="flex flex-row justify-between p-2">
+        <td class="flex flex-row justify-between p-2 h-full items-center">
           <button
             @click="goToTaskDetail(ticket?.id)"
             class="w-[50px] flex flex-row justify-center"

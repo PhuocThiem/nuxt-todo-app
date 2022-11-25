@@ -8,6 +8,7 @@
             >Search</label
           >
           <input
+            v-model="searchText"
             type="text"
             placeholder="Input task title"
             class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none"
@@ -49,7 +50,7 @@
           <Icon :icon-path="ICON_PATH.ADDITION" />
         </button>
       </div>
-      <Table :tickets-list="data as Ticket[]" />
+      <Table :tickets-list="tableData" />
     </div>
   </div>
 </template>
@@ -66,12 +67,35 @@ const ticket = useTicketStore();
 const config = useRuntimeConfig();
 const { baseURL } = config.public;
 
+const tableData = ref<Ticket[]>([]);
+const searchText = ref<String>("");
+const timeoutID = ref<any>(null);
+
 const { data, error } = await useFetch(baseURL + ENDPOINT.TICKETS, {
   onResponse({ response }) {
     ticket.updateGetTicketsState(response._data);
+    tableData.value = response._data;
   },
   onResponseError() {
     ticket.clearGetTasksState();
   },
 });
+
+watch(searchText, (newValue, oldValue) => {
+  clearTimeout(timeoutID.value);
+  timeoutID.value = setTimeout(() => {
+    console.log("search Text", searchText.value);
+    if (!searchText.value) {
+      tableData.value = data.value as Ticket[];
+      return;
+    }
+    searchByText(searchText.value.toString());
+  }, 1000);
+});
+
+function searchByText(text: string) {
+  tableData.value = (data.value as Array<Ticket>).filter((ticket: Ticket) =>
+    ticket?.title.includes(text)
+  );
+}
 </script>
