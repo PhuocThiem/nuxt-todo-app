@@ -23,7 +23,7 @@
             class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none"
           >
             <option value="" disabled hidden selected>Select sort type</option>
-            <option v-for="type in sortType" :key="type.id" :value="type.id">
+            <option v-for="type in SortType" :key="type.id" :value="type.id">
               {{ type.type }}
             </option>
           </select>
@@ -37,24 +37,20 @@
             id=""
             class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none"
           >
-            <option value="" disabled hidden selected>Select sort type</option>
-            <option v-for="type in sortType" :key="type.id" :value="type.id">
+            <option value=" " disabled hidden selected>Select sort type</option>
+            <option v-for="type in SortType" :key="type.id" :value="type.id">
               {{ type.type }}
             </option>
           </select>
         </div>
+        <button
+          class="w-[100px] shadow-sm flex flex-row justify-center ml-20 mt-[22px]"
+        >
+          <Icon :icon-path="ICON_PATH.ADDITION" />
+        </button>
       </div>
+      <Table :tickets-list="data as Ticket[]" />
     </div>
-
-    <!-- <h1 v-if="pending">Loading.........</h1>
-    <div v-else>
-      <h1 v-if="error">Error</h1>
-      <div v-else>
-        <li v-for="ticket in data as Ticket[]" :key="ticket.id">
-          {{ ticket.title }}
-        </li>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -62,30 +58,15 @@
 import { ENDPOINT } from "~~/constants/endpoint";
 import { useTicketStore } from "~~/store/ticket";
 import { Ticket } from "~~/store/models/ticket";
-import { PageTitle } from "~~/components";
+import { PageTitle, Table, Icon, ICON_PATH } from "~~/components";
+import { SortType } from "~~/constants/sortType";
 
 const ticket = useTicketStore();
 
 const config = useRuntimeConfig();
 const { baseURL } = config.public;
 
-const sortType: Type[] = [
-  {
-    id: 0,
-    type: "Ascending",
-  },
-  {
-    id: 1,
-    type: "Descending",
-  },
-];
-
-type Type = {
-  id: number;
-  type: string;
-};
-
-const { data, pending, error } = await useFetch(baseURL + ENDPOINT.TICKETS, {
+const { data, error } = await useFetch(baseURL + ENDPOINT.TICKETS, {
   onResponse({ response }) {
     ticket.updateGetTicketsState(response._data);
   },
