@@ -22,7 +22,6 @@
             v-model="selectedSortTitle"
             class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none"
           >
-            <!-- <option value="" disabled hidden selected>Select sort type</option> -->
             <option v-for="type in SortType" :key="type.id" :value="type.id">
               {{ type.type }}
             </option>
@@ -33,9 +32,9 @@
             >Sort by expired date</label
           >
           <select
+            v-model="selectedSortExpired"
             class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none"
           >
-            <option value=" " disabled hidden selected>Select sort type</option>
             <option v-for="type in SortType" :key="type.id" :value="type.id">
               {{ type.type }}
             </option>
@@ -68,6 +67,7 @@ const tableData = ref<Ticket[]>([]);
 const searchText = ref<String>("");
 const timeoutID = ref<any>(null);
 const selectedSortTitle = ref<Number>(SortType[0]?.id);
+const selectedSortExpired = ref<Number>(SortType[0]?.id);
 
 const { data, error } = await useFetch(baseURL + ENDPOINT.TICKETS, {
   onResponse({ response }) {
@@ -94,6 +94,10 @@ watch(selectedSortTitle, () => {
   sortByTitle();
 });
 
+watch(selectedSortExpired, () => {
+  sortByExpiredDate();
+});
+
 function searchByText(text: string) {
   tableData.value = (data.value as Array<Ticket>).filter((ticket: Ticket) =>
     ticket?.title.includes(text)
@@ -113,6 +117,20 @@ function sortByTitle() {
   }
 }
 
+function sortByExpiredDate() {
+  console.log("sort by Expire date", selectedSortExpired.value);
+  switch (selectedSortExpired.value) {
+    case SortType[1]?.id:
+      tableData.value = _sortExpiredAsc([...(data.value as Array<Ticket>)]);
+      break;
+    case SortType[2]?.id:
+      tableData.value = _sortExpiredDsc([...(data.value as Array<Ticket>)]);
+      break;
+    default:
+      _resetTableData();
+  }
+}
+
 function _resetTableData() {
   tableData.value = data.value as Ticket[];
 }
@@ -123,5 +141,21 @@ function _sortArrAsc(arr: Ticket[]) {
 
 function _sortArrDsc(arr: Ticket[]) {
   return arr.sort((a: Ticket, b: Ticket) => (a?.title > b?.title ? -1 : 1));
+}
+
+function _sortExpiredAsc(arr: Ticket[]) {
+  return arr.sort((a: Ticket, b: Ticket) =>
+    new Date(a.ExpiredDate).getTime() > new Date(b.ExpiredDate).getTime()
+      ? 1
+      : -1
+  );
+}
+
+function _sortExpiredDsc(arr: Ticket[]) {
+  return arr.sort((a: Ticket, b: Ticket) =>
+    new Date(a.ExpiredDate).getTime() > new Date(b.ExpiredDate).getTime()
+      ? -1
+      : 1
+  );
 }
 </script>
