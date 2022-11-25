@@ -29,9 +29,7 @@
         <td class="text-center border-r-2 border-white">
           {{ moment(ticket?.ExpiredDate).format("L") }}
         </td>
-        <td
-          class="flex flex-row justify-between p-2 h-full items-center"
-        >
+        <td class="flex flex-row justify-between p-2 h-full items-center">
           <button
             @click="goToTaskDetail(ticket?.id)"
             class="w-[50px] flex flex-row justify-center"
@@ -58,10 +56,14 @@
 
 <script setup lang="ts">
 import moment from "moment";
+
 import { Ticket } from "~~/store/models/ticket";
 import { Icon, ICON_PATH, Tag } from "~~/components";
+import { ENDPOINT } from "~~/constants/endpoint";
 
 const router = useRouter();
+const config = useRuntimeConfig();
+const { baseURL } = config.public;
 
 defineProps({
   ticketsList: Array<Ticket>,
@@ -71,7 +73,13 @@ function goToTaskDetail(id: number) {
   router.push({ path: `tasks/${id}` });
 }
 
-function deleteTask(id: number) {}
+function deleteTask(id: number) {
+  useFetch(ENDPOINT.TICKETS + `/${id}`, {
+    method: "DELETE",
+    // query: { id },
+    baseURL,
+  });
+}
 
 function updateTask(id: number) {}
 </script>

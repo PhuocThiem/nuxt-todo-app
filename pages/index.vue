@@ -41,7 +41,7 @@
           </select>
         </div>
         <button
-          class="w-[100px] shadow-sm flex flex-row justify-center ml-20 mt-[22px]"
+          class="w-[100px] hover:bg-slate-200 flex flex-row justify-center ml-20 mt-[22px]"
         >
           <Icon :icon-path="ICON_PATH.ADDITION" />
         </button>
@@ -69,7 +69,9 @@ const timeoutID = ref<any>(null);
 const selectedSortTitle = ref<Number>(SortType[0]?.id);
 const selectedSortExpired = ref<Number>(SortType[0]?.id);
 
-const { data, error } = await useFetch(baseURL + ENDPOINT.TICKETS, {
+const { data, error } = await useFetch(ENDPOINT.TICKETS, {
+  method: "GET",
+  baseURL,
   onResponse({ response }) {
     ticket.updateGetTicketsState(response._data);
     tableData.value = response._data;
