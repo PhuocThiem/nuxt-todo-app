@@ -53,7 +53,7 @@ function searchByText(text: string) {
 }
 
 function sortByField(sortType: number, sortField: string) {
-  const newArr = [...(data.value as Ticket[])];
+  const newArr: Ticket[] = [...tableData.value];
   switch (sortType) {
     case SORT_TYPE[1]?.id:
       tableData.value = sortField === SORT_FIELD.TITLE ? sortArrAsc(newArr) : sortExpiredAsc(newArr);
@@ -67,6 +67,9 @@ function sortByField(sortType: number, sortField: string) {
 }
 
 function _resetTableData() {
+  searchText.value = ""
+  selectedSortTitle.value = SORT_TYPE[0]?.id
+  selectedSortExpired.value = SORT_TYPE[0]?.id
   tableData.value = data.value as Ticket[];
 }
 </script>
