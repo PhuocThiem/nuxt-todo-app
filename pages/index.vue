@@ -17,17 +17,21 @@ const timeoutID = ref<any>(null);
 const selectedSortTitle = ref<Number>(SORT_TYPE[0]?.id);
 const selectedSortExpired = ref<Number>(SORT_TYPE[0]?.id);
 
-const { data, error } = await useFetch(ENDPOINT.TICKETS, {
-  method: 'GET',
-  baseURL,
-  onResponse({ response }) {
-    ticket.updateGetTicketsState(response._data);
-    tableData.value = response._data;
-  },
-  onResponseError() {
-    ticket.clearGetTasksState();
-  },
-});
+const { data, error } = await getListOfTickets();
+
+async function getListOfTickets() {
+  return await useFetch(ENDPOINT.TICKETS, {
+    method: 'GET',
+    baseURL,
+    onResponse({ response }) {
+      ticket.updateGetTicketsState(response._data);
+      tableData.value = response._data;
+    },
+    onResponseError() {
+      ticket.clearGetTasksState();
+    },
+  });
+}
 
 watch(searchText, (newValue, oldValue) => {
   clearTimeout(timeoutID.value);
@@ -67,9 +71,9 @@ function sortByField(sortType: number, sortField: string) {
 }
 
 function _resetTableData() {
-  searchText.value = ""
-  selectedSortTitle.value = SORT_TYPE[0]?.id
-  selectedSortExpired.value = SORT_TYPE[0]?.id
+  searchText.value = '';
+  selectedSortTitle.value = SORT_TYPE[0]?.id;
+  selectedSortExpired.value = SORT_TYPE[0]?.id;
   tableData.value = data.value as Ticket[];
 }
 </script>
@@ -116,7 +120,7 @@ function _resetTableData() {
           </button>
         </div>
       </div>
-      <Table :tickets-list="tableData" />
+      <Table :tickets-list="tableData" @handle-sync-data="getListOfTickets"/>
     </div>
   </div>
 </template>
