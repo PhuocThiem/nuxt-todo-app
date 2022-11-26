@@ -13,12 +13,12 @@ export const SORT_TYPE: Type[] = [
   },
 ];
 
-type Type = {
+export type Type = {
   id: number;
   type: string;
 };
 
 export const SORT_FIELD = {
-  TITLE: 'title',
-  EXPIRED_DATE: 'expired date',
+  TITLE: 'Title',
+  EXPIRED_DATE: 'ExpiredDate',
 };
