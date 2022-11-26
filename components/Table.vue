@@ -25,7 +25,7 @@ function deleteTask(id: number) {
     // query: { id },
     baseURL,
     onResponse({ response }) {
-      console.log("response", response)
+      console.log('response', response);
       emit('handle-sync-data');
     },
   });
@@ -34,14 +34,14 @@ function deleteTask(id: number) {
 function updateTask(id: number) {}
 </script>
 <template>
-  <table class="table-auto w-full h-full mt-10 bg-gray-100">
+  <table class="table-auto bg-gray-100 w-full h-fit relative">
     <thead>
       <tr class="border-b-2 border-white">
-        <th class="border-r-2 border-white">Title</th>
-        <th class="border-r-2 border-white">Assigned to</th>
-        <th class="border-r-2 border-white">Status</th>
-        <th class="border-r-2 border-white">Expired date</th>
-        <th class="w-[220px]">Action</th>
+        <th class="border-r-2 border-white top-0 sticky bg-gray-100">Title</th>
+        <th class="border-r-2 border-white top-0 sticky bg-gray-100">Assigned to</th>
+        <th class="border-r-2 border-white top-0 sticky bg-gray-100">Status</th>
+        <th class="border-r-2 border-white top-0 sticky bg-gray-100">Expired date</th>
+        <th class="w-[220px] top-0 sticky bg-gray-100">Action</th>
       </tr>
     </thead>
     <tbody>

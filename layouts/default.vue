@@ -2,7 +2,7 @@
   <SpinLoading v-if="isLoading" />
   <template v-else>
     <div
-      class="flex flex-row bg-gradient-to-r from-teal-600 bg-cyan-500 min-w-full h-20 items-center pl-2"
+      class="flex flex-row bg-gradient-to-r from-teal-600 bg-cyan-500 min-w-full h-20 items-center pl-2 z-10"
     >
       <h1
         class="text-3xl text-white font-bold hover:cursor-pointer"
@@ -15,7 +15,7 @@
       <slot />
     </div>
     <div
-      class="flex flex-row justify-center bg-gradient-to-r from-teal-600 bg-cyan-500 min-w-full h-20 items-center"
+      class="flex flex-row justify-center bg-gradient-to-r from-teal-600 bg-cyan-500 min-w-full h-20 items-center z-10"
     >
       <h1 class="text-3xl text-white font-bold">MGI Solution</h1>
     </div>
