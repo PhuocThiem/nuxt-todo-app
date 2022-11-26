@@ -82,9 +82,7 @@ function _resetTableData() {
           </button>
         </div>
       </div>
-      <div class="h-1/2 overflow-auto mt-10">
-        <Table :tickets-list="tableData" @handle-sync-data="getListOfTickets" />
-      </div>
+      <Table :tickets-list="tableData" @handle-sync-data="getListOfTickets" />
     </div>
   </div>
 </template>

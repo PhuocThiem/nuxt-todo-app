@@ -34,44 +34,46 @@ function deleteTask(id: number) {
 function updateTask(id: number) {}
 </script>
 <template>
-  <table class="table-auto bg-gray-100 w-full h-fit relative">
-    <thead>
-      <tr class="border-b-2 border-white">
-        <th class="border-r-2 border-white top-0 sticky bg-gray-100">Title</th>
-        <th class="border-r-2 border-white top-0 sticky bg-gray-100">Assigned to</th>
-        <th class="border-r-2 border-white top-0 sticky bg-gray-100">Status</th>
-        <th class="border-r-2 border-white top-0 sticky bg-gray-100">Expired date</th>
-        <th class="w-[220px] top-0 sticky bg-gray-100">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="ticket in ticketsList" :key="ticket?.id" class="items-center border-b-2 border-white">
-        <td class="p-2 border-r-2 border-white">
-          {{ ticket?.title }}
-        </td>
-        <td class="p-2 border-r-2 border-white">
-          {{ ticket?.assignTo }}
-        </td>
-        <td class="border-r-2 border-white">
-          <div class="flex justify-center">
-            <Tag :is-completed="ticket?.isCompleted" />
-          </div>
-        </td>
-        <td class="text-center border-r-2 border-white">
-          {{ moment(ticket?.ExpiredDate).format('L') }}
-        </td>
-        <td class="flex flex-row justify-between p-2 h-full items-center">
-          <button @click="goToTaskDetail(ticket?.id)" class="w-[50px] flex flex-row justify-center">
-            <Icon :icon-path="ICON_PATH.INFO" />
-          </button>
-          <button @click="updateTask(ticket?.id)" class="w-[50px] flex flex-row justify-center">
-            <Icon :icon-path="ICON_PATH.UPDATE" />
-          </button>
-          <button @click="deleteTask(ticket?.id)" class="w-[50px] flex flex-row justify-center">
-            <Icon :icon-path="ICON_PATH.DELETE" />
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="h-1/2 overflow-auto mt-10">
+    <table class="table-auto bg-gray-100 w-full h-fit relative">
+      <thead>
+        <tr class="border-b-2 border-white">
+          <th class="border-r-2 border-white top-0 sticky bg-gray-100">Title</th>
+          <th class="border-r-2 border-white top-0 sticky bg-gray-100">Assigned to</th>
+          <th class="border-r-2 border-white top-0 sticky bg-gray-100">Status</th>
+          <th class="border-r-2 border-white top-0 sticky bg-gray-100">Expired date</th>
+          <th class="w-[220px] top-0 sticky bg-gray-100">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="ticket in ticketsList" :key="ticket?.id" class="items-center border-b-2 border-white">
+          <td class="p-2 border-r-2 border-white">
+            {{ ticket?.title }}
+          </td>
+          <td class="p-2 border-r-2 border-white">
+            {{ ticket?.assignTo }}
+          </td>
+          <td class="border-r-2 border-white">
+            <div class="flex justify-center">
+              <Tag :is-completed="ticket?.isCompleted" />
+            </div>
+          </td>
+          <td class="text-center border-r-2 border-white">
+            {{ moment(ticket?.ExpiredDate).format('L') }}
+          </td>
+          <td class="flex flex-row justify-between p-2 h-full items-center">
+            <button @click="goToTaskDetail(ticket?.id)" class="w-[50px] flex flex-row justify-center">
+              <Icon :icon-path="ICON_PATH.INFO" />
+            </button>
+            <button @click="updateTask(ticket?.id)" class="w-[50px] flex flex-row justify-center">
+              <Icon :icon-path="ICON_PATH.UPDATE" />
+            </button>
+            <button @click="deleteTask(ticket?.id)" class="w-[50px] flex flex-row justify-center">
+              <Icon :icon-path="ICON_PATH.DELETE" />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
