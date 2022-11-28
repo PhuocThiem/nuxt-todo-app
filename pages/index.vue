@@ -6,7 +6,7 @@ import { useTicketStore } from '~~/store/ticket';
 import { TicketForm, Ticket } from '~~/store/models/ticket';
 import { PageTitle, Table, Icon, ICON_PATH, Selector, SearchInput, RegisterForm, UpdateForm } from '~~/components';
 import { SORT_TYPE, SORT_FIELD, MODAL_TYPE } from '~~/constants';
-import { sortArrAsc, sortArrDsc, sortExpiredAsc, sortExpiredDsc } from '~~/utils/common';
+import { sortTitleAsc, sortTitleDsc, sortExpiredAsc, sortExpiredDsc } from '~~/utils/common';
 
 const ticket = useTicketStore();
 
@@ -60,10 +60,10 @@ function sortByField(sortType: number, sortField: string) {
   const newArr: Ticket[] = [...tableData.value];
   switch (sortType) {
     case SORT_TYPE[1]?.id:
-      tableData.value = sortField === SORT_FIELD.TITLE ? sortArrAsc(newArr) : sortExpiredAsc(newArr);
+      tableData.value = sortField === SORT_FIELD.TITLE ? sortTitleAsc(newArr) : sortExpiredAsc(newArr);
       break;
     case SORT_TYPE[2]?.id:
-      tableData.value = sortField === SORT_FIELD.TITLE ? sortArrDsc(newArr) : sortExpiredDsc(newArr);
+      tableData.value = sortField === SORT_FIELD.TITLE ? sortTitleDsc(newArr) : sortExpiredDsc(newArr);
       break;
     default:
       _resetTableData();
