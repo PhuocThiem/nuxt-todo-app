@@ -29,10 +29,13 @@ async function getListOfTickets() {
     method: 'GET',
     baseURL,
     onResponse({ response }) {
-      ticket.updateGetTicketsState(response._data);
-      tableData.value = response._data;
+      if (response?.ok) {
+        ticket.updateGetTicketsState(response._data);
+        tableData.value = response._data;
+      }
     },
-    onResponseError() {
+    onResponseError({ response }) {
+      errMsg.value = response.statusText;
       ticket.clearGetTasksState();
     },
   });
@@ -73,15 +76,17 @@ function _resetTableData() {
 
 async function handleCreateTicket() {
   const data: TicketForm = toRaw(createFormRef.value.ticket);
-  await useFetch(ENDPOINT.TICKETS, {
+  await useFetch(ENDPOINT.TICKETS + 'qwfqwf', {
     method: 'POST',
     baseURL,
     body: { ...data, expiredDate: data.expiredDate.toISOString() },
-    onResponse() {
-      getListOfTickets();
-      isVisible.value = false;
+    onResponse({ response }) {
+      if (response?.ok) {
+        getListOfTickets();
+        isVisible.value = false;
+      }
     },
-    onResponseError({ request, response, options }) {
+    onResponseError({ response }) {
       errMsg.value = response.statusText;
     },
   });
@@ -89,15 +94,17 @@ async function handleCreateTicket() {
 
 async function handleUpdateTicket() {
   const data: TicketForm = toRaw(updateFormRef.value.ticket);
-  await useFetch(`${ENDPOINT.TICKETS}/${toRaw(selectedTicket.value)?.id}`, {
+  await useFetch(ENDPOINT.TICKETS + `/${toRaw(selectedTicket.value)?.id}`, {
     method: 'PUT',
     baseURL,
     body: data,
-    onResponse() {
-      getListOfTickets();
-      isVisible.value = false;
+    onResponse({ response }) {
+      if (response?.ok) {
+        getListOfTickets();
+        isVisible.value = false;
+      }
     },
-    onResponseError({ request, response, options }) {
+    onResponseError({ response }) {
       errMsg.value = response.statusText;
     },
   });
@@ -105,12 +112,28 @@ async function handleUpdateTicket() {
 
 function openModal(typeOfModal: string) {
   modal_type.value = typeOfModal;
+  errMsg.value = '';
   isVisible.value = true;
 }
 
 function onEditTicket(ticket: Ticket) {
   selectedTicket.value = toRaw(ticket);
   openModal(MODAL_TYPE.UPDATE);
+}
+
+function deleteTask(id: number) {
+  useFetch(ENDPOINT.TICKETS + `/${id}`, {
+    method: 'DELETE',
+    baseURL,
+    onResponse({ response }) {
+      if (response?.ok) {
+        getListOfTickets();
+      }
+    },
+    onResponseError({ response }) {
+      errMsg.value = response.statusText;
+    },
+  });
 }
 </script>
 
@@ -135,7 +158,12 @@ function onEditTicket(ticket: Ticket) {
           </button>
         </div>
       </div>
-      <Table :tickets-list="tableData" @handle-sync-data="getListOfTickets" @open-modal="onEditTicket" />
+      <Table
+        :tickets-list="tableData"
+        @handle-sync-data="getListOfTickets"
+        @open-modal="onEditTicket"
+        @on-delete="deleteTask"
+      />
     </div>
     <Modal
       v-model:visible="isVisible"

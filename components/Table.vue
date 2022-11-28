@@ -3,33 +3,17 @@ import moment from 'moment';
 
 import { Ticket } from '~~/store/models/ticket';
 import { Icon, ICON_PATH, Tag } from '~~/components';
-import { ENDPOINT } from '~~/constants/endpoint';
 
 const router = useRouter();
-const config = useRuntimeConfig();
-const { baseURL } = config.public;
 
 defineProps({
   ticketsList: Array<Ticket>,
 });
 
-const emit = defineEmits(['handle-sync-data', 'open-modal']);
-
 function goToTaskDetail(id: number) {
   router.push({ path: `tasks/${id}` });
 }
 
-function deleteTask(id: number) {
-  useFetch(ENDPOINT.TICKETS + `/${id}`, {
-    method: 'DELETE',
-    // query: { id },
-    baseURL,
-    onResponse({ response }) {
-      console.log('response', response);
-      emit('handle-sync-data');
-    },
-  });
-}
 </script>
 <template>
   <div class="h-[550px] overflow-auto mt-10">
@@ -66,7 +50,7 @@ function deleteTask(id: number) {
             <button @click="$emit('open-modal', ticket)" class="w-[50px] flex flex-row justify-center">
               <Icon :icon-path="ICON_PATH.UPDATE" />
             </button>
-            <button @click="deleteTask(ticket?.id)" class="w-[50px] flex flex-row justify-center">
+            <button @click="$emit('on-delete', ticket?.id)" class="w-[50px] flex flex-row justify-center">
               <Icon :icon-path="ICON_PATH.DELETE" />
             </button>
           </td>
