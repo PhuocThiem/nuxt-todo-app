@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const searchText = ref<String>('');
 
-const prop = defineProps({
+defineProps({
   searchLabel: String,
   placeholder: String,
 });
@@ -11,6 +11,14 @@ const emit = defineEmits(['handle-input']);
 watch(searchText, () => {
   emit('handle-input', searchText.value);
 });
+
+defineExpose({
+  clearSelected,
+});
+
+function clearSelected() {
+  searchText.value = '';
+}
 </script>
 <template>
   <div class="w-1/3 shadow-sm">

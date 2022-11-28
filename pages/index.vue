@@ -17,12 +17,15 @@ const tableData = ref<Ticket[]>([]);
 const timeoutID = ref<any>(null);
 const isVisible = ref<boolean>(false);
 const errMsg = ref<string>('');
+const searchInputRef = ref<any>(null);
+const titleSelectorRef = ref<any>(null);
+const expiredSelectorRef = ref<any>(null);
 const createFormRef = ref<any>(null);
 const updateFormRef = ref<any>(null);
 const modal_type = ref<string>('');
 const selectedTicket = ref<Ticket>();
 
-const { data, error } = await getListOfTickets();
+const { data } = await getListOfTickets();
 
 async function getListOfTickets() {
   return await useFetch(ENDPOINT.TICKETS, {
@@ -71,6 +74,9 @@ function sortByField(sortType: number, sortField: string) {
 }
 
 function _resetTableData() {
+  toRaw(searchInputRef.value)?.clearSelected();
+  toRaw(titleSelectorRef.value)?.clearSelected();
+  toRaw(expiredSelectorRef.value)?.clearSelected();
   tableData.value = data.value as Ticket[];
 }
 
@@ -142,12 +148,23 @@ function deleteTask(id: number) {
     <PageTitle> Dashboard </PageTitle>
     <div class="flex flex-col p-3 w-full h-full">
       <div class="flex flex-row justify-start w-full items-center h-20 gap-2">
-        <SearchInput :search-label="'Search'" :placeholder="'Input task title'" @handle-input="searchByTitle" />
-        <Selector :input-label="'Sort by title'" :select-type="SORT_FIELD.TITLE" @handle-select="sortByField" />
+        <SearchInput
+          :search-label="'Search'"
+          :placeholder="'Input task title'"
+          @handle-input="searchByTitle"
+          ref="searchInputRef"
+        />
+        <Selector
+          :input-label="'Sort by title'"
+          :select-type="SORT_FIELD.TITLE"
+          @handle-select="sortByField"
+          ref="titleSelectorRef"
+        />
         <Selector
           :input-label="'Sort by expired date'"
           :select-type="SORT_FIELD.EXPIRED_DATE"
           @handle-select="sortByField"
+          ref="expiredSelectorRef"
         />
         <div class="h-[60px] flex flex-row justify-center items-end">
           <button

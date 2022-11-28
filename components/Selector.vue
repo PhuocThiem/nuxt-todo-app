@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SORT_TYPE, Type } from '~~/constants/sortType';
+import { SORT_TYPE } from '~~/constants/sortType';
 
 const selectValue = ref<Number>(SORT_TYPE[0]?.id);
 
@@ -13,6 +13,14 @@ const emit = defineEmits(['handle-select']);
 watch(selectValue, () => {
   emit('handle-select', selectValue.value, prop.selectType);
 });
+
+defineExpose({
+  clearSelected
+})
+
+function clearSelected() {
+  selectValue.value = SORT_TYPE[0]?.id;
+}
 </script>
 
 <template>
