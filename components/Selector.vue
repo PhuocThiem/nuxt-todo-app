@@ -20,7 +20,7 @@ watch(selectValue, () => {
     <label for="price" class="block text-sm font-medium text-gray-700">{{ inputLabel }}</label>
     <select
       v-model="selectValue"
-      class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
+      class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
     >
       <option v-for="type in SORT_TYPE" :key="type.id" :value="type.id">
         {{ type.type }}

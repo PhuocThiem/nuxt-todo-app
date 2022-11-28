@@ -19,7 +19,7 @@ watch(searchText, () => {
       v-model="searchText"
       type="text"
       :placeholder="placeholder"
-      class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
+      class="w-full bg-blend-lighten bg-slate-100 focus:bg-transparent border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
     />
   </div>
 </template>

@@ -29,19 +29,19 @@ defineExpose({ ticket });
       v-model="ticket.title"
       type="text"
       placeholder="Input title"
-      class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
+      class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 blur:focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px] my-2"
     />
     <input
       v-model="ticket.note"
       type="text"
       placeholder="Input notice"
-      class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
+      class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px] my-2"
     />
     <input
       v-model="ticket.assignTo"
       type="text"
       placeholder="Assign this to someone"
-      class="w-full border-solid border-b-[2px] border-neutral-400 focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px] mb-5"
+      class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px] my-2"
     />
     <Datepicker
       v-model="ticket.expiredDate"
