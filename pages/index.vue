@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { Modal } from 'usemodal-vue3';
 
 import { ENDPOINT } from '~~/constants/endpoint';
 import { useTicketStore } from '~~/store/ticket';
 import { TicketForm, Ticket } from '~~/store/models/ticket';
-import { PageTitle, Table, Icon, ICON_PATH, Selector, SearchInput, RegisterForm } from '~~/components';
-import { SORT_TYPE, SORT_FIELD } from '~~/constants/sortType';
+import { PageTitle, Table, Icon, ICON_PATH, Selector, SearchInput, RegisterForm, UpdateForm } from '~~/components';
+import { SORT_TYPE, SORT_FIELD, MODAL_TYPE } from '~~/constants';
 import { sortArrAsc, sortArrDsc, sortExpiredAsc, sortExpiredDsc } from '~~/utils/common';
 
 const ticket = useTicketStore();
@@ -19,6 +18,9 @@ const timeoutID = ref<any>(null);
 const isVisible = ref<boolean>(false);
 const errMsg = ref<string>('');
 const createFormRef = ref<any>(null);
+const updateFormRef = ref<any>(null);
+const modal_type = ref<string>('');
+const selectedTicket = ref<Ticket>();
 
 const { data, error } = await getListOfTickets();
 
@@ -84,9 +86,33 @@ async function handleCreateTicket() {
     },
   });
 }
-</script>
 
-function create
+async function handleUpdateTicket() {
+  const data: TicketForm = toRaw(updateFormRef.value.ticket);
+  await useFetch(`${ENDPOINT.TICKETS}/${toRaw(selectedTicket.value)?.id}`, {
+    method: 'PUT',
+    baseURL,
+    body: data,
+    onResponse() {
+      getListOfTickets();
+      isVisible.value = false;
+    },
+    onResponseError({ request, response, options }) {
+      errMsg.value = response.statusText;
+    },
+  });
+}
+
+function openModal(typeOfModal: string) {
+  modal_type.value = typeOfModal;
+  isVisible.value = true;
+}
+
+function onEditTicket(ticket: Ticket) {
+  selectedTicket.value = toRaw(ticket);
+  openModal(MODAL_TYPE.UPDATE);
+}
+</script>
 
 <template>
   <div>
@@ -103,24 +129,28 @@ function create
         <div class="h-[60px] flex flex-row justify-center items-end">
           <button
             class="w-[100px] hover:bg-slate-200 ml-20 items-center h-[40px] flex justify-center"
-            @click="isVisible = true"
+            @click="openModal(MODAL_TYPE.CREATE)"
           >
             <Icon :icon-path="ICON_PATH.ADDITION" />
           </button>
         </div>
       </div>
-      <Table :tickets-list="tableData" @handle-sync-data="getListOfTickets" />
+      <Table :tickets-list="tableData" @handle-sync-data="getListOfTickets" @open-modal="onEditTicket" />
     </div>
     <Modal
       v-model:visible="isVisible"
       :maskClosable="false"
       :offsetTop="200"
-      title="Create new ticket"
-      :okButton="{ text: 'Create', onclick: handleCreateTicket }"
+      :title="modal_type === MODAL_TYPE.CREATE ? MODAL_TYPE.CREATE : MODAL_TYPE.UPDATE"
+      :okButton="{
+        text: modal_type === MODAL_TYPE.CREATE ? 'Create' : 'Update',
+        onclick: modal_type === MODAL_TYPE.CREATE ? handleCreateTicket : handleUpdateTicket,
+      }"
       :closable="false"
     >
       <p v-if="errMsg" class="text-red-600">{{ errMsg }}</p>
-      <RegisterForm ref="createFormRef" />
+      <RegisterForm v-if="modal_type === MODAL_TYPE.CREATE" ref="createFormRef" />
+      <UpdateForm v-else ref="updateFormRef" :selected-ticket="selectedTicket" />
     </Modal>
   </div>
 </template>

@@ -13,7 +13,7 @@ defineProps({
   ticketsList: Array<Ticket>,
 });
 
-const emit = defineEmits(['handle-sync-data']);
+const emit = defineEmits(['handle-sync-data', 'open-modal']);
 
 function goToTaskDetail(id: number) {
   router.push({ path: `tasks/${id}` });
@@ -30,8 +30,6 @@ function deleteTask(id: number) {
     },
   });
 }
-
-function updateTask(id: number) {}
 </script>
 <template>
   <div class="h-[550px] overflow-auto mt-10">
@@ -65,7 +63,7 @@ function updateTask(id: number) {}
             <button @click="goToTaskDetail(ticket?.id)" class="w-[50px] flex flex-row justify-center">
               <Icon :icon-path="ICON_PATH.INFO" />
             </button>
-            <button @click="updateTask(ticket?.id)" class="w-[50px] flex flex-row justify-center">
+            <button @click="$emit('open-modal', ticket)" class="w-[50px] flex flex-row justify-center">
               <Icon :icon-path="ICON_PATH.UPDATE" />
             </button>
             <button @click="deleteTask(ticket?.id)" class="w-[50px] flex flex-row justify-center">
