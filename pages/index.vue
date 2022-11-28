@@ -76,7 +76,7 @@ function _resetTableData() {
 
 async function handleCreateTicket() {
   const data: TicketForm = toRaw(createFormRef.value.ticket);
-  await useFetch(ENDPOINT.TICKETS + 'qwfqwf', {
+  await useFetch(ENDPOINT.TICKETS, {
     method: 'POST',
     baseURL,
     body: { ...data, expiredDate: data.expiredDate.toISOString() },
