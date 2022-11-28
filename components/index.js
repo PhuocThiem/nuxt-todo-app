@@ -6,5 +6,6 @@ import Icon from './icons/Icon.vue';
 import Tag from './Tag.vue';
 import Selector from './Selector.vue';
 import SearchInput from './SearchInput.vue';
+import RegisterForm from './RegisterForm.vue';
 
-export { PageTitle, SpinLoading, Table, ICON_PATH, Icon, Tag, Selector, SearchInput };
+export { PageTitle, SpinLoading, Table, ICON_PATH, Icon, Tag, Selector, SearchInput, RegisterForm };

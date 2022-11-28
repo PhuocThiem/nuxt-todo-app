@@ -15,9 +15,11 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.5",
+    "@vuepic/vue-datepicker": "^3.5.3",
     "moment": "^2.29.4",
     "pinia": "^2.0.26",
     "sass": "^1.56.1",
-    "sass-loader": "^13.2.0"
+    "sass-loader": "^13.2.0",
+    "usemodal-vue3": "^0.3.7"
   }
 }

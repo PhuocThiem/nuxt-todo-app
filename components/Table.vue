@@ -34,7 +34,7 @@ function deleteTask(id: number) {
 function updateTask(id: number) {}
 </script>
 <template>
-  <div class="h-1/2 overflow-auto mt-10">
+  <div class="h-[550px] overflow-auto mt-10">
     <table class="table-auto bg-gray-100 w-full h-fit relative">
       <thead>
         <tr class="border-b-2 border-white">
@@ -59,7 +59,7 @@ function updateTask(id: number) {}
             </div>
           </td>
           <td class="text-center border-r-2 border-white">
-            {{ moment(ticket?.ExpiredDate).format('L') }}
+            {{ moment(ticket?.expiredDate).format('L') }}
           </td>
           <td class="flex flex-row justify-between p-2 h-full items-center">
             <button @click="goToTaskDetail(ticket?.id)" class="w-[50px] flex flex-row justify-center">

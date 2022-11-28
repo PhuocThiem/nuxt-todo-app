@@ -3,8 +3,8 @@ export default defineNuxtConfig({
   modules: ['@pinia/nuxt'],
   runtimeConfig: {
     public: {
-      baseURL: process.env.APP_BASE_URL || "https://63735c53348e9472990a3d1a.mockapi.io/"
-    }
+      baseURL: process.env.APP_BASE_URL || 'https://63735c53348e9472990a3d1a.mockapi.io/',
+    },
   },
   css: ['~/assets/css/main.css'],
   postcss: {
@@ -13,4 +13,7 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-})
+  build: {
+    transpile: ['@vuepic/vue-datepicker'],
+  },
+});
