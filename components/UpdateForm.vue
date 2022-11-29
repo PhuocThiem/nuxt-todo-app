@@ -35,13 +35,13 @@ defineExpose({ ticket });
 
 <template>
   <div>
-    <UpdateInput :default-value="ticket?.title" @onChange-text="(text: string) => ticket.title = text"
+    <UpdateInput :default-value="ticket?.title" @update-text="(text: string) => ticket.title = text"
       >Title</UpdateInput
     >
-    <UpdateInput :default-value="ticket?.note" @onChange-text="(text: string) => ticket.note = text"
+    <UpdateInput :default-value="ticket?.note" @update-text="(text: string) => ticket.note = text"
       >Notice</UpdateInput
     >
-    <UpdateInput :default-value="ticket?.assignTo" @onChange-text="(text: string) => ticket.assignTo = text"
+    <UpdateInput :default-value="ticket?.assignTo" @update-text="(text: string) => ticket.assignTo = text"
       >Assign to</UpdateInput
     >
     <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Status</label>

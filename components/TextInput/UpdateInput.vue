@@ -16,11 +16,11 @@ const prop = defineProps({
   defaultValue: String,
 });
 
-const emit = defineEmits(['onChange-text']);
+const emit = defineEmits(['update-text']);
 
 const text = ref(prop.defaultValue as string);
 
 watch(text, () => {
-  emit('onChange-text', text);
+  emit('update-text', text);
 });
 </script>
