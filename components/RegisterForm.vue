@@ -37,6 +37,7 @@ defineExpose({ ticket });
       :minDate="new Date()"
       ignoreTimeValidation
       :enableTimePicker="false"
+      :clearable="false"
     />
   </div>
 </template>
