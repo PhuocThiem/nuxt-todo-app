@@ -4,6 +4,7 @@ import Datepicker from '@vuepic/vue-datepicker';
 
 import '@vuepic/vue-datepicker/dist/main.css';
 import { Ticket } from '~~/store/models/ticket';
+import UpdateInput from './TextInput/UpdateInput.vue';
 
 const prop = defineProps({
   selectedTicket: {
@@ -34,30 +35,15 @@ defineExpose({ ticket });
 
 <template>
   <div>
-    <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Title</label>
-    <input
-      v-model="ticket.title"
-      type="text"
-      placeholder="Input title"
-      class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
-      :class="{ 'bg-transparent': ticket.title }"
-    />
-    <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Notice</label>
-    <input
-      v-model="ticket.note"
-      type="text"
-      placeholder="Input notice"
-      class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
-      :class="{ 'bg-transparent': ticket.note }"
-    />
-    <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Assign to</label>
-    <input
-      v-model="ticket.assignTo"
-      type="text"
-      placeholder="Assign this to someone"
-      class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
-      :class="{ 'bg-transparent': ticket.assignTo }"
-    />
+    <UpdateInput :default-value="ticket?.title" @onChange-text="(text: string) => ticket.title = text"
+      >Title</UpdateInput
+    >
+    <UpdateInput :default-value="ticket?.note" @onChange-text="(text: string) => ticket.note = text"
+      >Notice</UpdateInput
+    >
+    <UpdateInput :default-value="ticket?.assignTo" @onChange-text="(text: string) => ticket.assignTo = text"
+      >Assign to</UpdateInput
+    >
     <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Status</label>
     <input
       type="checkbox"
