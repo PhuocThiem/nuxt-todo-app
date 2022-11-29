@@ -3,6 +3,7 @@ import Datepicker from '@vuepic/vue-datepicker';
 
 import '@vuepic/vue-datepicker/dist/main.css';
 import { TicketForm } from '~~/store/models/ticket';
+import TextInput from './TextInput.vue'
 
 const ticket: TicketForm = reactive({
   title: '',
@@ -30,18 +31,21 @@ defineExpose({ ticket });
       type="text"
       placeholder="Input title"
       class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 blur:focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px] my-2"
+      :class="{'bg-transparent': ticket.title}"
     />
     <input
       v-model="ticket.note"
       type="text"
       placeholder="Input notice"
       class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px] my-2"
+      :class="{'bg-transparent': ticket.note}"
     />
     <input
       v-model="ticket.assignTo"
       type="text"
       placeholder="Assign this to someone"
       class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px] my-2"
+      :class="{'bg-transparent': ticket.assignTo}"
     />
     <Datepicker
       v-model="ticket.expiredDate"

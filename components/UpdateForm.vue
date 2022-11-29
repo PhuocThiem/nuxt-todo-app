@@ -40,6 +40,7 @@ defineExpose({ ticket });
       type="text"
       placeholder="Input title"
       class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
+      :class="{ 'bg-transparent': ticket.title }"
     />
     <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Notice</label>
     <input
@@ -47,6 +48,7 @@ defineExpose({ ticket });
       type="text"
       placeholder="Input notice"
       class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
+      :class="{ 'bg-transparent': ticket.note }"
     />
     <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Assign to</label>
     <input
@@ -54,6 +56,7 @@ defineExpose({ ticket });
       type="text"
       placeholder="Assign this to someone"
       class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
+      :class="{ 'bg-transparent': ticket.assignTo }"
     />
     <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Status</label>
     <input

@@ -15,8 +15,8 @@ watch(selectValue, () => {
 });
 
 defineExpose({
-  clearSelected
-})
+  clearSelected,
+});
 
 function clearSelected() {
   selectValue.value = SORT_TYPE[0]?.id;
@@ -29,6 +29,7 @@ function clearSelected() {
     <select
       v-model="selectValue"
       class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
+      :class="{ 'bg-transparent': selectValue !== 0 }"
     >
       <option v-for="type in SORT_TYPE" :key="type.id" :value="type.id">
         {{ type.type }}
