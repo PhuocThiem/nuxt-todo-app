@@ -3,7 +3,7 @@ import Datepicker from '@vuepic/vue-datepicker';
 
 import '@vuepic/vue-datepicker/dist/main.css';
 import { TicketForm } from '~~/store/models/ticket';
-import CreateInput from './TextInput/CreateInput.vue';
+import TextInput from './TextInput.vue';
 
 const ticket: TicketForm = reactive({
   title: '',
@@ -26,9 +26,9 @@ defineExpose({ ticket });
 
 <template>
   <div>
-    <CreateInput :placeHolder="'Input title'" @onChange-text="(text: string) => ticket.title = text" />
-    <CreateInput :placeHolder="'Input notice'" @onChange-text="(text: string) => ticket.note = text" />
-    <CreateInput :placeHolder="'Assign this to someone'" @onChange-text="(text: string) => ticket.assignTo = text" />
+    <TextInput :placeHolder="'Input title'" v-model:text="ticket.title" />
+    <TextInput :placeHolder="'Input notice'" v-model:text="ticket.note" />
+    <TextInput :placeHolder="'Assign this to someone'" v-model:text="ticket.assignTo" />
     <Datepicker
       v-model="ticket.expiredDate"
       :format="format"

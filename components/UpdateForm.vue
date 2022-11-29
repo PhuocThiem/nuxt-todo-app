@@ -4,7 +4,7 @@ import Datepicker from '@vuepic/vue-datepicker';
 
 import '@vuepic/vue-datepicker/dist/main.css';
 import { Ticket } from '~~/store/models/ticket';
-import UpdateInput from './TextInput/UpdateInput.vue';
+import TextInput from './TextInput.vue';
 
 const prop = defineProps({
   selectedTicket: {
@@ -35,15 +35,12 @@ defineExpose({ ticket });
 
 <template>
   <div>
-    <UpdateInput :default-value="ticket?.title" @update-text="(text: string) => ticket.title = text"
-      >Title</UpdateInput
-    >
-    <UpdateInput :default-value="ticket?.note" @update-text="(text: string) => ticket.note = text"
-      >Notice</UpdateInput
-    >
-    <UpdateInput :default-value="ticket?.assignTo" @update-text="(text: string) => ticket.assignTo = text"
-      >Assign to</UpdateInput
-    >
+    <label for="price" class="block text-sm font-medium text-gray-700 mt-2"> Title </label>
+    <TextInput :placeHolder="'Input title'" v-model:text="ticket.title" />
+    <label for="price" class="block text-sm font-medium text-gray-700 mt-2"> Notice </label>
+    <TextInput :placeHolder="'Input notice'" v-model:text="ticket.note" />
+    <label for="price" class="block text-sm font-medium text-gray-700 mt-2"> Assign to </label>
+    <TextInput :placeHolder="'Assign this to someone'" v-model:text="ticket.assignTo" />
     <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Status</label>
     <input
       type="checkbox"
