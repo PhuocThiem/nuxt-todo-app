@@ -26,14 +26,14 @@ defineExpose({ ticket });
 
 <template>
   <div>
-    <TextInput :placeHolder="'Input title'" v-model:text="ticket.title" />
-    <TextInput :placeHolder="'Input notice'" v-model:text="ticket.note" />
-    <TextInput :placeHolder="'Assign this to someone'" v-model:text="ticket.assignTo" />
+    <TextInput :placeholder="'Input title'" v-model:text="ticket.title" />
+    <TextInput :placeholder="'Input notice'" v-model:text="ticket.note" />
+    <TextInput :placeholder="'Assign this to someone'" v-model:text="ticket.assignTo" />
     <Datepicker
       v-model="ticket.expiredDate"
       :format="format"
       autoApply
-      required
+      :required="true"
       :minDate="new Date()"
       ignoreTimeValidation
       :enableTimePicker="false"

@@ -36,11 +36,11 @@ defineExpose({ ticket });
 <template>
   <div>
     <label for="price" class="block text-sm font-medium text-gray-700 mt-2"> Title </label>
-    <TextInput :placeHolder="'Input title'" v-model:text="ticket.title" />
+    <TextInput :placeholder="'Input title'" v-model:text="ticket.title" />
     <label for="price" class="block text-sm font-medium text-gray-700 mt-2"> Notice </label>
-    <TextInput :placeHolder="'Input notice'" v-model:text="ticket.note" />
+    <TextInput :placeholder="'Input notice'" v-model:text="ticket.note" />
     <label for="price" class="block text-sm font-medium text-gray-700 mt-2"> Assign to </label>
-    <TextInput :placeHolder="'Assign this to someone'" v-model:text="ticket.assignTo" />
+    <TextInput :placeholder="'Assign this to someone'" v-model:text="ticket.assignTo" />
     <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Status</label>
     <input
       type="checkbox"
@@ -54,7 +54,7 @@ defineExpose({ ticket });
       v-model="ticket.expiredDate"
       :format="format"
       autoApply
-      required
+      :required="true"
       :minDate="new Date()"
       ignoreTimeValidation
       :enableTimePicker="false"
