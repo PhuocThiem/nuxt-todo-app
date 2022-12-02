@@ -8,6 +8,13 @@ import { PageTitle, Table, Icon, ICON_PATH, Selector, SearchInput, RegisterForm,
 import { SORT_TYPE, SORT_FIELD, MODAL_TYPE } from '~~/constants';
 import { sortTitleAsc, sortTitleDsc, sortExpiredAsc, sortExpiredDsc } from '~~/utils/common';
 
+useHead({
+  titleTemplate: 'Todo list',
+  meta: [
+    { name: 'description', content: 'Manage tickets' },
+  ],
+})
+
 const ticket = useTicketStore();
 
 const config = useRuntimeConfig();
