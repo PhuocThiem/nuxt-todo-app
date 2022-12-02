@@ -8,5 +8,18 @@ import Selector from './Selector.vue';
 import SearchInput from './SearchInput.vue';
 import RegisterForm from './RegisterForm.vue';
 import UpdateForm from './UpdateForm.vue';
+import ErrorMessage from './ErrorMessage.vue';
 
-export { PageTitle, SpinLoading, Table, ICON_PATH, Icon, Tag, Selector, SearchInput, RegisterForm, UpdateForm };
+export {
+  PageTitle,
+  SpinLoading,
+  Table,
+  ICON_PATH,
+  Icon,
+  Tag,
+  Selector,
+  SearchInput,
+  RegisterForm,
+  UpdateForm,
+  ErrorMessage,
+};

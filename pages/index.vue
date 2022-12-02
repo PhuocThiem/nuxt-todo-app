@@ -4,7 +4,17 @@ import { Modal } from 'usemodal-vue3';
 import { ENDPOINT } from '~~/constants/endpoint';
 import { useTicketStore } from '~~/store/ticket';
 import { TicketForm, Ticket } from '~~/store/models/ticket';
-import { PageTitle, Table, Icon, ICON_PATH, Selector, SearchInput, RegisterForm, UpdateForm } from '~~/components';
+import {
+  PageTitle,
+  Table,
+  Icon,
+  ICON_PATH,
+  Selector,
+  SearchInput,
+  RegisterForm,
+  UpdateForm,
+  ErrorMessage,
+} from '~~/components';
 import { SORT_TYPE, SORT_FIELD, MODAL_TYPE } from '~~/constants';
 import { sortTitleAsc, sortTitleDsc, sortExpiredAsc, sortExpiredDsc } from '~~/utils/common';
 
@@ -33,7 +43,7 @@ const selectedTicket = ref<Ticket>();
 const selectTitleValue = ref<number>(SORT_TYPE[0]?.id);
 const selectExpiredValue = ref<number>(SORT_TYPE[0]?.id);
 
-const { data } = await getListOfTickets();
+const { data, error } = await getListOfTickets();
 
 async function getListOfTickets() {
   return await useFetch(ENDPOINT.TICKETS, {
@@ -46,7 +56,6 @@ async function getListOfTickets() {
       }
     },
     onResponseError({ response }) {
-      errMsg.value = response.statusText;
       ticket.clearGetTasksState();
     },
   });
@@ -168,7 +177,7 @@ function _isRegisterModal(modal_type: string) {
 <template>
   <div>
     <PageTitle> Dashboard </PageTitle>
-    <div class="flex flex-col p-3 w-full h-full">
+    <div class="flex flex-col p-3 w-full h-full" v-if="!error">
       <div class="flex flex-row justify-start w-full items-center h-20 gap-2">
         <SearchInput
           v-model:title="searchText"
@@ -195,6 +204,7 @@ function _isRegisterModal(modal_type: string) {
         @on-delete="deleteTask"
       />
     </div>
+    <ErrorMessage v-else :err-msg="'Failed to get data from server!'" />
     <Modal
       v-model:visible="isVisible"
       :maskClosable="false"
