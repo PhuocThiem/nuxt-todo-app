@@ -8,11 +8,13 @@ const tableHeaders: string[] = ['Title', 'Assigned to', 'Status', 'Expired date'
 
 const router = useRouter();
 
-defineProps({
-  ticketsList: Array<Ticket>,
-});
+defineProps<{
+  ticketsList: Ticket[];
+}>();
 
-function goToTaskDetail(id: number) {
+defineEmits<{ (e: 'open-modal', ticket: Ticket): void; (e: 'on-delete', id: number): void }>();
+
+function goToTaskDetail(id: number): void {
   router.push({ path: `tasks/${id}` });
 }
 </script>

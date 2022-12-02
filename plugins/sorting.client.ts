@@ -1,21 +1,21 @@
 import { Ticket } from '~~/store/ticket/ticket';
 
 export default defineNuxtPlugin(() => {
-  function sortTitleAsc(arr: Ticket[]) {
+  function sortTitleAsc(arr: Ticket[]): Ticket[] {
     return arr.sort((a: Ticket, b: Ticket) => (a?.title > b?.title ? 1 : -1));
   }
 
-  function sortTitleDsc(arr: Ticket[]) {
+  function sortTitleDsc(arr: Ticket[]): Ticket[] {
     return arr.sort((a: Ticket, b: Ticket) => (a?.title > b?.title ? -1 : 1));
   }
 
-  function sortExpiredAsc(arr: Ticket[]) {
+  function sortExpiredAsc(arr: Ticket[]): Ticket[] {
     return arr.sort((a: Ticket, b: Ticket) =>
       new Date(a.expiredDate).getTime() > new Date(b.expiredDate).getTime() ? 1 : -1
     );
   }
 
-  function sortExpiredDsc(arr: Ticket[]) {
+  function sortExpiredDsc(arr: Ticket[]): Ticket[] {
     return arr.sort((a: Ticket, b: Ticket) =>
       new Date(a.expiredDate).getTime() > new Date(b.expiredDate).getTime() ? -1 : 1
     );

@@ -49,7 +49,7 @@ const delayMilliseconds: number = 1000;
 
 const { data, error } = await getListOfTickets();
 
-async function getListOfTickets() {
+async function getListOfTickets(): Promise<any> {
   return await useFetch(ENDPOINT.TICKETS, {
     method: 'GET',
     baseURL,
@@ -71,7 +71,7 @@ watch(searchText, () => {
   searchByTitle(searchText.value);
 });
 
-function searchByTitle(searchText: string) {
+function searchByTitle(searchText: string): void {
   clearTimeout(timeoutID.value);
   timeoutID.value = setTimeout(() => {
     if (!searchText) {
@@ -90,12 +90,12 @@ watch(selectExpiredValue, () => {
   sortByField(selectExpiredValue.value, SORT_FIELD.EXPIRED_DATE);
 });
 
-function filterByText(text: string) {
+function filterByText(text: string): void {
   searchData.value = (data.value as Array<Ticket>).filter((ticket: Ticket) => ticket?.title.includes(text));
   tableData.value = [...searchData.value];
 }
 
-function sortByField(sortType: number, sortField: number) {
+function sortByField(sortType: number, sortField: number): void {
   const newArr: Ticket[] = [...searchData.value];
   switch (true) {
     case sortType === SORT_TYPE.Ascending && sortField === SORT_FIELD.TITLE:
@@ -119,24 +119,25 @@ function sortByField(sortType: number, sortField: number) {
   }
 }
 
-function _clearSorting() {
+function _clearSorting(): void {
   selectTitleValue.value = SORT_TYPE['Choose type'];
   selectExpiredValue.value = SORT_TYPE['Choose type'];
 }
 
-function _resetTableData() {
+function _resetTableData(): void {
   searchText.value = '';
   _clearSorting();
   searchData.value = [...(data.value as Ticket[])];
   tableData.value = [...searchData.value];
 }
 
-async function handleCreateTicket() {
-  const data: TicketForm = toRaw(createFormRef.value.ticket);
+async function handleCreateTicket(): Promise<void> {
+  const data: Ticket = toRaw(createFormRef.value.ticket);
   await useFetch(ENDPOINT.TICKETS, {
     method: 'POST',
     baseURL,
-    body: { ...data, expiredDate: data.expiredDate.toISOString() },
+    // body: { ...data, expiredDate: data.expiredDate.toISOString() },
+    body: data,
     onResponse({ response }) {
       if (response?.ok) {
         getListOfTickets();
@@ -149,8 +150,8 @@ async function handleCreateTicket() {
   });
 }
 
-async function handleUpdateTicket() {
-  const data: TicketForm = toRaw(updateFormRef.value.ticket);
+async function handleUpdateTicket(): Promise<void> {
+  const data: Ticket = toRaw(updateFormRef.value.ticket);
   await useFetch(ENDPOINT.TICKETS + `/${toRaw(selectedTicket.value)?.id}`, {
     method: 'PUT',
     baseURL,
@@ -167,19 +168,19 @@ async function handleUpdateTicket() {
   });
 }
 
-function openModal(typeOfModal: string) {
+function openModal(typeOfModal: string): void {
   modal_type.value = typeOfModal;
   errMsg.value = '';
   isVisible.value = true;
 }
 
-function onEditTicket(ticket: Ticket) {
+function onEditTicket(ticket: Ticket): void {
   selectedTicket.value = toRaw(ticket);
   openModal(MODAL_TYPE.UPDATE);
 }
 
-function deleteTask(id: number) {
-  useFetch(ENDPOINT.TICKETS + `/${id}`, {
+async function deleteTask(id: number): Promise<void> {
+  await useFetch(ENDPOINT.TICKETS + `/${id}`, {
     method: 'DELETE',
     baseURL,
     onResponse({ response }) {
@@ -193,7 +194,7 @@ function deleteTask(id: number) {
   });
 }
 
-function _isRegisterModal(modal_type: string) {
+function _isRegisterModal(modal_type: string): boolean {
   return modal_type === MODAL_TYPE.CREATE;
 }
 </script>

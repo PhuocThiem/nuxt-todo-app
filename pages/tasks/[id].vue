@@ -15,7 +15,9 @@ const route = useRoute();
 const config = useRuntimeConfig();
 const { baseURL } = config.public;
 
-const { data, error } = await useFetch(`${baseURL}${ENDPOINT.TICKETS}/${route.params?.id}`);
+const { data, error } = await useFetch(`${ENDPOINT.TICKETS}/${route.params?.id}`, {
+  baseURL,
+});
 </script>
 
 <template>
