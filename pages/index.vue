@@ -10,10 +10,11 @@ import { sortTitleAsc, sortTitleDsc, sortExpiredAsc, sortExpiredDsc } from '~~/u
 
 useHead({
   titleTemplate: 'Todo list',
-  meta: [
-    { name: 'description', content: 'Manage tickets' },
-  ],
-})
+  meta: [{ name: 'description', content: 'Manage tickets' }],
+  htmlAttrs: {
+    lang: 'en',
+  },
+});
 
 const ticket = useTicketStore();
 
@@ -181,6 +182,7 @@ function _isRegisterModal(modal_type: string) {
           <button
             class="w-[100px] hover:bg-slate-200 ml-20 items-center h-[40px] flex justify-center"
             @click="openModal(MODAL_TYPE.CREATE)"
+            title="Add new task"
           >
             <Icon :icon-path="ICON_PATH.ADDITION" />
           </button>

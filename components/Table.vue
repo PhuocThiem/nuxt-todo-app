@@ -13,7 +13,6 @@ defineProps({
 function goToTaskDetail(id: number) {
   router.push({ path: `tasks/${id}` });
 }
-
 </script>
 <template>
   <div class="h-[550px] overflow-auto mt-10">
@@ -44,13 +43,25 @@ function goToTaskDetail(id: number) {
             {{ moment(ticket?.expiredDate).format('L') }}
           </td>
           <td class="flex flex-row justify-between p-2 h-full items-center">
-            <button @click="goToTaskDetail(ticket?.id)" class="w-[50px] flex flex-row justify-center">
+            <button
+              @click="goToTaskDetail(ticket?.id)"
+              class="w-[50px] flex flex-row justify-center"
+              :title="`Go to detail task ${ticket?.title}`"
+            >
               <Icon :icon-path="ICON_PATH.INFO" />
             </button>
-            <button @click="$emit('open-modal', ticket)" class="w-[50px] flex flex-row justify-center">
+            <button
+              @click="$emit('open-modal', ticket)"
+              class="w-[50px] flex flex-row justify-center"
+              :title="`Edit task ${ticket?.title}`"
+            >
               <Icon :icon-path="ICON_PATH.UPDATE" />
             </button>
-            <button @click="$emit('on-delete', ticket?.id)" class="w-[50px] flex flex-row justify-center">
+            <button
+              @click="$emit('on-delete', ticket?.id)"
+              class="w-[50px] flex flex-row justify-center"
+              :title="`Delete task ${ticket?.title}`"
+            >
               <Icon :icon-path="ICON_PATH.DELETE" />
             </button>
           </td>

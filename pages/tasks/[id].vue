@@ -24,9 +24,10 @@ import moment from 'moment';
 
 useHead({
   titleTemplate: 'Task detail',
-  meta: [
-    { name: 'description', content: 'Display ticket information' },
-  ],
+  meta: [{ name: 'description', content: 'Display ticket information' }],
+  htmlAttrs: {
+    lang: 'en',
+  },
 });
 
 const route = useRoute();
