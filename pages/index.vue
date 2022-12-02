@@ -32,6 +32,7 @@ const config = useRuntimeConfig();
 const { baseURL } = config.public;
 
 const tableData = ref<Ticket[]>([]);
+const searchData = ref<Ticket[]>([]);
 const timeoutID = ref<any>(null);
 const isVisible = ref<boolean>(false);
 const errMsg = ref<string>('');
@@ -53,15 +54,17 @@ async function getListOfTickets() {
       if (response?.ok) {
         ticket.updateGetTicketsState(response._data);
         tableData.value = response._data;
+        searchData.value = response._data;
       }
     },
-    onResponseError({ response }) {
+    onResponseError() {
       ticket.clearGetTasksState();
     },
   });
 }
 
 watch(searchText, () => {
+  _clearSorting();
   searchByTitle(searchText.value);
 });
 
@@ -85,26 +88,53 @@ watch(selectExpiredValue, () => {
 });
 
 function filterByText(text: string) {
-  tableData.value = (data.value as Array<Ticket>).filter((ticket: Ticket) => ticket?.title.includes(text));
+  searchData.value = (data.value as Array<Ticket>).filter((ticket: Ticket) => ticket?.title.includes(text));
+  tableData.value = [...searchData.value];
 }
 
 function sortByField(sortType: number, sortField: string) {
-  const newArr: Ticket[] = [...tableData.value];
+  const newArr: Ticket[] = [...searchData.value];
   switch (sortType) {
     case SORT_TYPE[1]?.id:
-      tableData.value = sortField === SORT_FIELD.TITLE ? sortTitleAsc(newArr) : sortExpiredAsc(newArr);
+      tableData.value = _ascSorting(newArr, sortField);
       break;
     case SORT_TYPE[2]?.id:
-      tableData.value = sortField === SORT_FIELD.TITLE ? sortTitleDsc(newArr) : sortExpiredDsc(newArr);
+      tableData.value = _dscSorting(newArr, sortField);
       break;
     default:
-      _resetTableData();
+      tableData.value = [...searchData.value];
   }
+}
+
+function _ascSorting(arr: Ticket[], sortField: string) {
+  if (sortField === SORT_FIELD.TITLE) {
+    selectExpiredValue.value = SORT_TYPE[0].id;
+    return sortTitleAsc(arr);
+  }
+  selectTitleValue.value = SORT_TYPE[0].id;
+  return sortExpiredAsc(arr);
+}
+
+function _dscSorting(arr: Ticket[], sortField: string) {
+  if (sortField === SORT_FIELD.TITLE) {
+    selectExpiredValue.value = SORT_TYPE[0].id;
+    return sortTitleDsc(arr);
+  }
+  selectTitleValue.value = SORT_TYPE[0].id;
+  return sortExpiredDsc(arr);
+}
+
+function _clearSorting() {
+  selectTitleValue.value = SORT_TYPE[0]?.id;
+  selectExpiredValue.value = SORT_TYPE[0]?.id;
 }
 
 function _resetTableData() {
   searchText.value = '';
-  tableData.value = data.value as Ticket[];
+  selectTitleValue.value = SORT_TYPE[0]?.id;
+  selectExpiredValue.value = SORT_TYPE[0]?.id;
+  searchData.value = [...(data.value as Ticket[])];
+  tableData.value = [...searchData.value];
 }
 
 async function handleCreateTicket() {
