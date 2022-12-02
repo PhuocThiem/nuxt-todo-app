@@ -16,7 +16,6 @@ import {
   ErrorMessage,
 } from '~~/components';
 import { SORT_TYPE, SORT_FIELD, MODAL_TYPE } from '~~/constants';
-import { sortTitleAsc, sortTitleDsc, sortExpiredAsc, sortExpiredDsc } from '~~/utils/common';
 
 useHead({
   titleTemplate: 'Todo list',
@@ -107,21 +106,23 @@ function sortByField(sortType: number, sortField: string) {
 }
 
 function _ascSorting(arr: Ticket[], sortField: string) {
+  const { $sortTitleAsc, $sortExpiredAsc } = useNuxtApp();
   if (sortField === SORT_FIELD.TITLE) {
     selectExpiredValue.value = SORT_TYPE[0].id;
-    return sortTitleAsc(arr);
+    return $sortTitleAsc(arr);
   }
   selectTitleValue.value = SORT_TYPE[0].id;
-  return sortExpiredAsc(arr);
+  return $sortExpiredAsc(arr);
 }
 
 function _dscSorting(arr: Ticket[], sortField: string) {
+  const { $sortTitleDsc, $sortExpiredDsc } = useNuxtApp();
   if (sortField === SORT_FIELD.TITLE) {
     selectExpiredValue.value = SORT_TYPE[0].id;
-    return sortTitleDsc(arr);
+    return $sortTitleDsc(arr);
   }
   selectTitleValue.value = SORT_TYPE[0].id;
-  return sortExpiredDsc(arr);
+  return $sortExpiredDsc(arr);
 }
 
 function _clearSorting() {
@@ -207,6 +208,7 @@ function _isRegisterModal(modal_type: string) {
 <template>
   <div>
     <PageTitle> Dashboard </PageTitle>
+    <p>{{ $showName() }}</p>
     <div class="flex flex-col p-3 w-full h-full" v-if="!error">
       <div class="flex flex-row justify-start w-full items-center h-20 gap-2">
         <SearchInput
