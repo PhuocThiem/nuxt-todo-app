@@ -151,6 +151,10 @@ function deleteTask(id: number) {
     },
   });
 }
+
+function _isRegisterModal(modal_type: string) {
+  return modal_type === MODAL_TYPE.CREATE;
+}
 </script>
 
 <template>
@@ -186,15 +190,15 @@ function deleteTask(id: number) {
       v-model:visible="isVisible"
       :maskClosable="false"
       :offsetTop="200"
-      :title="modal_type === MODAL_TYPE.CREATE ? MODAL_TYPE.CREATE : MODAL_TYPE.UPDATE"
+      :title="_isRegisterModal(modal_type) ? MODAL_TYPE.CREATE : MODAL_TYPE.UPDATE"
       :okButton="{
-        text: modal_type === MODAL_TYPE.CREATE ? 'Create' : 'Update',
-        onclick: modal_type === MODAL_TYPE.CREATE ? handleCreateTicket : handleUpdateTicket,
+        text: _isRegisterModal(modal_type) ? 'Create' : 'Update',
+        onclick: _isRegisterModal(modal_type) ? handleCreateTicket : handleUpdateTicket,
       }"
       :closable="false"
     >
       <p v-if="errMsg" class="text-red-600">{{ errMsg }}</p>
-      <RegisterForm v-if="modal_type === MODAL_TYPE.CREATE" ref="createFormRef" />
+      <RegisterForm v-if="_isRegisterModal(modal_type)" ref="createFormRef" />
       <UpdateForm v-else ref="updateFormRef" :selected-ticket="selectedTicket" />
     </Modal>
   </div>
