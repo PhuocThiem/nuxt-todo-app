@@ -40,8 +40,8 @@ const createFormRef = ref<any>(null);
 const updateFormRef = ref<any>(null);
 const modal_type = ref<string>('');
 const selectedTicket = ref<Ticket>();
-const selectTitleValue = ref<number>(SORT_TYPE[0]?.id);
-const selectExpiredValue = ref<number>(SORT_TYPE[0]?.id);
+const selectTitleValue = ref<number>(SORT_TYPE['Choose type']);
+const selectExpiredValue = ref<number>(SORT_TYPE['Choose type']);
 
 const { $sortTitleAsc, $sortExpiredAsc, $sortTitleDsc, $sortExpiredDsc } = useNuxtApp();
 
@@ -98,10 +98,10 @@ function filterByText(text: string) {
 function sortByField(sortType: number, sortField: string) {
   const newArr: Ticket[] = [...searchData.value];
   switch (sortType) {
-    case SORT_TYPE[1]?.id:
+    case SORT_TYPE.Ascending:
       tableData.value = _ascSorting(newArr, sortField);
       break;
-    case SORT_TYPE[2]?.id:
+    case SORT_TYPE.Descending:
       tableData.value = _dscSorting(newArr, sortField);
       break;
     default:
@@ -111,31 +111,30 @@ function sortByField(sortType: number, sortField: string) {
 
 function _ascSorting(arr: Ticket[], sortField: string) {
   if (sortField === SORT_FIELD.TITLE) {
-    selectExpiredValue.value = SORT_TYPE[0].id;
+    selectExpiredValue.value = SORT_TYPE['Choose type'];
     return $sortTitleAsc(arr);
   }
-  selectTitleValue.value = SORT_TYPE[0].id;
+  selectTitleValue.value = SORT_TYPE['Choose type'];
   return $sortExpiredAsc(arr);
 }
 
 function _dscSorting(arr: Ticket[], sortField: string) {
   if (sortField === SORT_FIELD.TITLE) {
-    selectExpiredValue.value = SORT_TYPE[0].id;
+    selectExpiredValue.value = SORT_TYPE['Choose type'];
     return $sortTitleDsc(arr);
   }
-  selectTitleValue.value = SORT_TYPE[0].id;
+  selectTitleValue.value = SORT_TYPE['Choose type'];
   return $sortExpiredDsc(arr);
 }
 
 function _clearSorting() {
-  selectTitleValue.value = SORT_TYPE[0]?.id;
-  selectExpiredValue.value = SORT_TYPE[0]?.id;
+  selectTitleValue.value = SORT_TYPE['Choose type'];
+  selectExpiredValue.value = SORT_TYPE['Choose type'];
 }
 
 function _resetTableData() {
   searchText.value = '';
-  selectTitleValue.value = SORT_TYPE[0]?.id;
-  selectExpiredValue.value = SORT_TYPE[0]?.id;
+  _clearSorting();
   searchData.value = [...(data.value as Ticket[])];
   tableData.value = [...searchData.value];
 }

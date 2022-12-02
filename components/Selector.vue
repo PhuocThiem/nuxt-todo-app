@@ -18,8 +18,8 @@ defineEmits<{ (e: 'update:value', sortType: number): void }>();
       class="w-full border-solid border-b-[2px] border-neutral-400 bg-slate-100 focus:bg-transparent focus:border-b-[2px] focus:border-sky-600 focus:outline-none h-[40px]"
       :class="{ 'bg-transparent': value !== 0 }"
     >
-      <option v-for="type in SORT_TYPE" :key="type.id" :value="type.id">
-        {{ type.type }}
+      <option v-for="[key, value] of Object.entries(SORT_TYPE).filter(arr => isNaN(Number(arr[1])))" :key="key" :value="key">
+        {{ value }}
       </option>
     </select>
   </div>
