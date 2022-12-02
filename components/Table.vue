@@ -4,6 +4,8 @@ import moment from 'moment';
 import { Ticket } from '~~/store/models/ticket';
 import { Icon, ICON_PATH, Tag } from '~~/components';
 
+const tableHeaders: string[] = ['Title', 'Assigned to', 'Status', 'Expired date', 'Action'];
+
 const router = useRouter();
 
 defineProps({
@@ -18,12 +20,15 @@ function goToTaskDetail(id: number) {
   <div class="h-[550px] overflow-auto mt-10">
     <table class="table-auto bg-gray-100 w-full h-fit relative">
       <thead>
-        <tr class="border-b-2 border-white">
-          <th class="border-r-2 border-white top-0 sticky bg-gray-100">Title</th>
-          <th class="border-r-2 border-white top-0 sticky bg-gray-100">Assigned to</th>
-          <th class="border-r-2 border-white top-0 sticky bg-gray-100">Status</th>
-          <th class="border-r-2 border-white top-0 sticky bg-gray-100">Expired date</th>
-          <th class="w-[220px] top-0 sticky bg-gray-100">Action</th>
+        <tr class="border-b-2 border-white sticky bg-gray-100 top-0">
+          <th
+            v-for="(item, index) in tableHeaders"
+            :key="index"
+            class="border-r-2 border-white"
+            :class="{ 'w-[220]': item === 'Action' }"
+          >
+            {{ item }}
+          </th>
         </tr>
       </thead>
       <tbody>
