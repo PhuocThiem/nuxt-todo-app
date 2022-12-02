@@ -27,7 +27,6 @@ export default defineNuxtPlugin(() => {
       sortTitleDsc,
       sortExpiredAsc,
       sortExpiredDsc,
-      showName: () => "Duong Phuoc Thiem"
     },
   };
 });
