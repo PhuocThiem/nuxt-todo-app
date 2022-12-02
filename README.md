@@ -34,6 +34,7 @@ yarn dev
 ## Production
 
 Build the application for production:
+#### Build static file
 
 ```bash
 npm run build
@@ -44,14 +45,25 @@ or
 yarn build
 ```
 
-Locally preview production build:
+#### Locally preview production build:
 
 ```bash
 npm run preview
+
+or
+
+yarn preview
 ```
 
+#### Build and run build local
+
 ```bash
-yarn preview
+npm run local
+
+or
+
+yarn local
+
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
