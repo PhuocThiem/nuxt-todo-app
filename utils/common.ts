@@ -1,4 +1,4 @@
-import { Ticket } from '~~/store/models/ticket';
+import { Ticket } from '~~/store/ticket/ticket';
 
 export function sortTitleAsc(arr: Ticket[]) {
   return arr.sort((a: Ticket, b: Ticket) => (a?.title > b?.title ? 1 : -1));

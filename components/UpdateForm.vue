@@ -2,7 +2,7 @@
 import Datepicker from '@vuepic/vue-datepicker';
 
 import '@vuepic/vue-datepicker/dist/main.css';
-import { Ticket } from '~~/store/models/ticket';
+import { Ticket } from '~~/store/ticket/ticket';
 import TextInput from './TextInput.vue';
 import { Tag } from '.';
 

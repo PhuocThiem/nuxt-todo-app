@@ -3,7 +3,7 @@ import { Modal } from 'usemodal-vue3';
 
 import { ENDPOINT } from '~~/constants/endpoint';
 import { useTicketStore } from '~~/store/ticket';
-import { TicketForm, Ticket } from '~~/store/models/ticket';
+import { TicketForm, Ticket } from '~~/store/ticket/ticket';
 import {
   PageTitle,
   Table,

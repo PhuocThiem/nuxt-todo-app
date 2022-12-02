@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import moment from 'moment';
 
-import { Ticket } from '~~/store/models/ticket';
+import { Ticket } from '~~/store/ticket/ticket';
 import { Icon, ICON_PATH, Tag } from '~~/components';
 
 const tableHeaders: string[] = ['Title', 'Assigned to', 'Status', 'Expired date', 'Action'];
