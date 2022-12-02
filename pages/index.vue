@@ -43,6 +43,8 @@ const selectedTicket = ref<Ticket>();
 const selectTitleValue = ref<number>(SORT_TYPE[0]?.id);
 const selectExpiredValue = ref<number>(SORT_TYPE[0]?.id);
 
+const { $sortTitleAsc, $sortExpiredAsc, $sortTitleDsc, $sortExpiredDsc } = useNuxtApp();
+
 const delayMilliseconds: number = 1000;
 
 const { data, error } = await getListOfTickets();
@@ -108,7 +110,6 @@ function sortByField(sortType: number, sortField: string) {
 }
 
 function _ascSorting(arr: Ticket[], sortField: string) {
-  const { $sortTitleAsc, $sortExpiredAsc } = useNuxtApp();
   if (sortField === SORT_FIELD.TITLE) {
     selectExpiredValue.value = SORT_TYPE[0].id;
     return $sortTitleAsc(arr);
@@ -118,7 +119,6 @@ function _ascSorting(arr: Ticket[], sortField: string) {
 }
 
 function _dscSorting(arr: Ticket[], sortField: string) {
-  const { $sortTitleDsc, $sortExpiredDsc } = useNuxtApp();
   if (sortField === SORT_FIELD.TITLE) {
     selectExpiredValue.value = SORT_TYPE[0].id;
     return $sortTitleDsc(arr);
