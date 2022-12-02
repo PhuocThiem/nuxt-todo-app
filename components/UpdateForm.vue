@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { PropType } from 'vue';
 import Datepicker from '@vuepic/vue-datepicker';
 
 import '@vuepic/vue-datepicker/dist/main.css';
@@ -7,11 +6,9 @@ import { Ticket } from '~~/store/models/ticket';
 import TextInput from './TextInput.vue';
 import { Tag } from '.';
 
-const prop = defineProps({
-  selectedTicket: {
-    type: Object as PropType<Ticket>,
-  },
-});
+const prop = defineProps<{
+  selectedTicket?: Ticket;
+}>();
 
 const { selectedTicket } = prop;
 
@@ -42,7 +39,9 @@ defineExpose({ ticket });
     <TextInput :placeholder="'Input notice'" v-model:text="ticket.note" />
     <label for="price" class="block text-sm font-medium text-gray-700 mt-2"> Assign to </label>
     <TextInput :placeholder="'Assign this to someone'" v-model:text="ticket.assignTo" />
-    <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Status <Tag :isCompleted="ticket.isCompleted" /></label>
+    <label for="price" class="block text-sm font-medium text-gray-700 mt-2"
+      >Status <Tag :isCompleted="ticket.isCompleted"
+    /></label>
     <input
       type="checkbox"
       class="checked:bg-blue-500"

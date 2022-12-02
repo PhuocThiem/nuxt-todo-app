@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const prop = defineProps({
-  placeholder: String,
-  text: String,
-});
+const prop = defineProps<{
+  placeholder: string;
+  text?: string;
+}>();
 
 const isValid = ref<boolean>(true);
 
@@ -17,7 +17,9 @@ function validateInput() {
   isValid.value = !!prop.text?.trim() ?? false;
 }
 
-defineEmits(['update:text']);
+defineEmits<{
+  (e: 'update:text', text: string): void;
+}>();
 </script>
 
 <template>

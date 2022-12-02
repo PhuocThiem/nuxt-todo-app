@@ -17,13 +17,13 @@ const tableData = ref<Ticket[]>([]);
 const timeoutID = ref<any>(null);
 const isVisible = ref<boolean>(false);
 const errMsg = ref<string>('');
-const searchInputRef = ref<any>(null);
-const titleSelectorRef = ref<any>(null);
-const expiredSelectorRef = ref<any>(null);
+const searchText = ref<string>('');
 const createFormRef = ref<any>(null);
 const updateFormRef = ref<any>(null);
 const modal_type = ref<string>('');
 const selectedTicket = ref<Ticket>();
+const selectTitleValue = ref<number>(SORT_TYPE[0]?.id);
+const selectExpiredValue = ref<number>(SORT_TYPE[0]?.id);
 
 const { data } = await getListOfTickets();
 
@@ -44,6 +44,10 @@ async function getListOfTickets() {
   });
 }
 
+watch(searchText, () => {
+  searchByTitle(searchText.value);
+});
+
 function searchByTitle(searchText: string) {
   clearTimeout(timeoutID.value);
   timeoutID.value = setTimeout(() => {
@@ -54,6 +58,14 @@ function searchByTitle(searchText: string) {
     filterByText(searchText.toString());
   }, 1000);
 }
+
+watch(selectTitleValue, () => {
+  sortByField(selectTitleValue.value, SORT_FIELD.TITLE);
+});
+
+watch(selectExpiredValue, () => {
+  sortByField(selectExpiredValue.value, SORT_FIELD.EXPIRED_DATE);
+});
 
 function filterByText(text: string) {
   tableData.value = (data.value as Array<Ticket>).filter((ticket: Ticket) => ticket?.title.includes(text));
@@ -74,9 +86,7 @@ function sortByField(sortType: number, sortField: string) {
 }
 
 function _resetTableData() {
-  toRaw(searchInputRef.value)?.clearSelected();
-  toRaw(titleSelectorRef.value)?.clearSelected();
-  toRaw(expiredSelectorRef.value)?.clearSelected();
+  searchText.value = '';
   tableData.value = data.value as Ticket[];
 }
 
@@ -149,23 +159,13 @@ function deleteTask(id: number) {
     <div class="flex flex-col p-3 w-full h-full">
       <div class="flex flex-row justify-start w-full items-center h-20 gap-2">
         <SearchInput
+          v-model:title="searchText"
           :search-label="'Search'"
           :placeholder="'Input task title'"
           @handle-input="searchByTitle"
-          ref="searchInputRef"
         />
-        <Selector
-          :input-label="'Sort by title'"
-          :select-type="SORT_FIELD.TITLE"
-          @handle-select="sortByField"
-          ref="titleSelectorRef"
-        />
-        <Selector
-          :input-label="'Sort by expired date'"
-          :select-type="SORT_FIELD.EXPIRED_DATE"
-          @handle-select="sortByField"
-          ref="expiredSelectorRef"
-        />
+        <Selector v-model:value="selectTitleValue" :input-label="'Sort by title'" />
+        <Selector v-model:value="selectExpiredValue" :input-label="'Sort by expired date'" />
         <div class="h-[60px] flex flex-row justify-center items-end">
           <button
             class="w-[100px] hover:bg-slate-200 ml-20 items-center h-[40px] flex justify-center"
