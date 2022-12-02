@@ -20,7 +20,7 @@ const { data, error } = await useFetch(`${baseURL}${ENDPOINT.TICKETS}/${route.pa
 
 <template>
   <div>
-    <PageTitle> Task Information </PageTitle>
+    <PageTitle v-slot="{ page }">Detail {{ page }}</PageTitle>
     <div class="flex flex-col items-center w-full py-10">
       <div class="shadow-lg shadow-gray-400 bg-white w-1/2 p-10">
         <ErrorMessage v-if="error" :err-msg="`Cannot get info of task id ${route.params?.id}`" />

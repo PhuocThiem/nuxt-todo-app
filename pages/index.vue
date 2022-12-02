@@ -209,7 +209,7 @@ function _isRegisterModal(modal_type: string) {
 
 <template>
   <div>
-    <PageTitle> Dashboard </PageTitle>
+    <PageTitle v-slot="{ page }">Home {{ page }}</PageTitle>
     <div class="flex flex-col p-3 w-full h-full" v-if="!error">
       <div class="flex flex-row justify-start w-full items-center h-20 gap-2">
         <SearchInput
