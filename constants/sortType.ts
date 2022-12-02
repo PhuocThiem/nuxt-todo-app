@@ -4,7 +4,7 @@ export enum SORT_TYPE {
   'Descending',
 }
 
-export const SORT_FIELD = {
-  TITLE: 'Title',
-  EXPIRED_DATE: 'ExpiredDate',
+export enum SORT_FIELD {
+  TITLE,
+  EXPIRED_DATE,
 };

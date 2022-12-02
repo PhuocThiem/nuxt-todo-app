@@ -95,7 +95,7 @@ function filterByText(text: string) {
   tableData.value = [...searchData.value];
 }
 
-function sortByField(sortType: number, sortField: string) {
+function sortByField(sortType: number, sortField: number) {
   const newArr: Ticket[] = [...searchData.value];
   switch (sortType) {
     case SORT_TYPE.Ascending:
@@ -109,7 +109,7 @@ function sortByField(sortType: number, sortField: string) {
   }
 }
 
-function _ascSorting(arr: Ticket[], sortField: string) {
+function _ascSorting(arr: Ticket[], sortField: number) {
   if (sortField === SORT_FIELD.TITLE) {
     selectExpiredValue.value = SORT_TYPE['Choose type'];
     return $sortTitleAsc(arr);
@@ -118,7 +118,7 @@ function _ascSorting(arr: Ticket[], sortField: string) {
   return $sortExpiredAsc(arr);
 }
 
-function _dscSorting(arr: Ticket[], sortField: string) {
+function _dscSorting(arr: Ticket[], sortField: number) {
   if (sortField === SORT_FIELD.TITLE) {
     selectExpiredValue.value = SORT_TYPE['Choose type'];
     return $sortTitleDsc(arr);
