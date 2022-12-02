@@ -43,6 +43,8 @@ const selectedTicket = ref<Ticket>();
 const selectTitleValue = ref<number>(SORT_TYPE[0]?.id);
 const selectExpiredValue = ref<number>(SORT_TYPE[0]?.id);
 
+const delayMilliseconds: number = 1000;
+
 const { data, error } = await getListOfTickets();
 
 async function getListOfTickets() {
@@ -75,7 +77,7 @@ function searchByTitle(searchText: string) {
       return;
     }
     filterByText(searchText.toString());
-  }, 1000);
+  }, delayMilliseconds);
 }
 
 watch(selectTitleValue, () => {
@@ -208,7 +210,6 @@ function _isRegisterModal(modal_type: string) {
 <template>
   <div>
     <PageTitle> Dashboard </PageTitle>
-    <p>{{ $showName() }}</p>
     <div class="flex flex-col p-3 w-full h-full" v-if="!error">
       <div class="flex flex-row justify-start w-full items-center h-20 gap-2">
         <SearchInput

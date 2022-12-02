@@ -1,9 +1,10 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+const DEFAULT_BASE_URL = 'https://63735c53348e9472990a3d1a.mockapi.io/';
+
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt'],
   runtimeConfig: {
     public: {
-      baseURL: process.env.APP_BASE_URL || 'https://63735c53348e9472990a3d1a.mockapi.io/',
+      baseURL: process.env.APP_BASE_URL || DEFAULT_BASE_URL,
     },
   },
   css: ['~/assets/css/main.css'],
