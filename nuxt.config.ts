@@ -16,4 +16,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['@vuepic/vue-datepicker'],
   },
+  nitro: {
+    compressPublicAssets: true,
+  },
 });
