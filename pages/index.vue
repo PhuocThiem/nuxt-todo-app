@@ -97,34 +97,26 @@ function filterByText(text: string) {
 
 function sortByField(sortType: number, sortField: number) {
   const newArr: Ticket[] = [...searchData.value];
-  switch (sortType) {
-    case SORT_TYPE.Ascending:
-      tableData.value = _ascSorting(newArr, sortField);
+  switch (true) {
+    case sortType === SORT_TYPE.Ascending && sortField === SORT_FIELD.TITLE:
+      selectExpiredValue.value = SORT_TYPE['Choose type'];
+      tableData.value = $sortTitleAsc(newArr);
       break;
-    case SORT_TYPE.Descending:
-      tableData.value = _dscSorting(newArr, sortField);
+    case sortType === SORT_TYPE.Ascending && sortField === SORT_FIELD.EXPIRED_DATE:
+      selectTitleValue.value = SORT_TYPE['Choose type'];
+      tableData.value = $sortExpiredAsc(newArr);
+      break;
+    case sortType === SORT_TYPE.Descending && sortField === SORT_FIELD.TITLE:
+      selectExpiredValue.value = SORT_TYPE['Choose type'];
+      tableData.value = $sortTitleDsc(newArr);
+      break;
+    case sortType === SORT_TYPE.Descending && sortField === SORT_FIELD.EXPIRED_DATE:
+      selectTitleValue.value = SORT_TYPE['Choose type'];
+      tableData.value = $sortExpiredDsc(newArr);
       break;
     default:
       tableData.value = [...searchData.value];
   }
-}
-
-function _ascSorting(arr: Ticket[], sortField: number) {
-  if (sortField === SORT_FIELD.TITLE) {
-    selectExpiredValue.value = SORT_TYPE['Choose type'];
-    return $sortTitleAsc(arr);
-  }
-  selectTitleValue.value = SORT_TYPE['Choose type'];
-  return $sortExpiredAsc(arr);
-}
-
-function _dscSorting(arr: Ticket[], sortField: number) {
-  if (sortField === SORT_FIELD.TITLE) {
-    selectExpiredValue.value = SORT_TYPE['Choose type'];
-    return $sortTitleDsc(arr);
-  }
-  selectTitleValue.value = SORT_TYPE['Choose type'];
-  return $sortExpiredDsc(arr);
 }
 
 function _clearSorting() {
