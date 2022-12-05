@@ -189,8 +189,8 @@ async function deleteTask(id: number): Promise<void> {
   });
 }
 
-function _isRegisterModal(modal_type: string): boolean {
-  return modal_type === MODAL_TYPE.CREATE;
+function _isRegisterModal(): boolean {
+  return modal_type.value === MODAL_TYPE.CREATE;
 }
 </script>
 
@@ -229,15 +229,15 @@ function _isRegisterModal(modal_type: string): boolean {
       v-model:visible="isVisible"
       :maskClosable="false"
       :offsetTop="200"
-      :title="_isRegisterModal(modal_type) ? MODAL_TYPE.CREATE : MODAL_TYPE.UPDATE"
+      :title="_isRegisterModal() ? MODAL_TYPE.CREATE : MODAL_TYPE.UPDATE"
       :okButton="{
-        text: _isRegisterModal(modal_type) ? 'Create' : 'Update',
-        onclick: _isRegisterModal(modal_type) ? handleCreateTicket : handleUpdateTicket,
+        text: _isRegisterModal() ? 'Create' : 'Update',
+        onclick: _isRegisterModal() ? handleCreateTicket : handleUpdateTicket,
       }"
       :closable="false"
     >
       <p v-if="errMsg" class="text-red-600">{{ errMsg }}</p>
-      <RegisterForm v-if="_isRegisterModal(modal_type)" ref="createFormRef" />
+      <RegisterForm v-if="_isRegisterModal()" ref="createFormRef" />
       <UpdateForm v-else ref="updateFormRef" :selected-ticket="selectedTicket" />
     </Modal>
   </div>
