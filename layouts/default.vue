@@ -7,6 +7,7 @@
       <h1
         class="text-3xl text-white font-bold hover:cursor-pointer"
         @click="goToHomePage"
+        title="Go to home page"
       >
         Nuxt todo app
       </h1>

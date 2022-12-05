@@ -27,7 +27,7 @@ function goToTaskDetail(id?: number): void {
             v-for="(item, index) in tableHeaders"
             :key="index"
             class="border-r-2 border-white"
-            :class="{ 'w-[220]': item === 'Action' }"
+            :class="{ 'w-[220px]': item === 'Action' }"
           >
             {{ item }}
           </th>
