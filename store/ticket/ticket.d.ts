@@ -1,11 +1,11 @@
 export type Ticket = {
-  id: number;
+  id?: number;
   title: string;
   note: string;
   isCompleted: boolean;
   assignTo: string;
-  expiredDate: string;
-  createdAt: string;
+  expiredDate: Date;
+  createdAt?: Date;
 };
 
 export type TicketForm = {

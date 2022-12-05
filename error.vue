@@ -6,9 +6,9 @@ useHead({
   },
 });
 
-defineProps({
-  error: Object,
-});
+defineProps<{
+  error: any,
+}>();
 </script>
 
 <template>

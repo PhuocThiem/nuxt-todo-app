@@ -1,7 +1,7 @@
 <script setup lang="ts">
-defineProps({
-  iconPath: String,
-});
+defineProps<{
+  iconPath: string,
+}>();
 </script>
 
 <template>

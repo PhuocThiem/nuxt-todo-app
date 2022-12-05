@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-  isCompleted: Boolean,
-});
+defineProps<{
+  isCompleted?: boolean,
+}>();
 </script>

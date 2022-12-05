@@ -2,10 +2,10 @@
 import Datepicker from '@vuepic/vue-datepicker';
 
 import '@vuepic/vue-datepicker/dist/main.css';
-import { TicketForm } from '~~/store/ticket/ticket';
+import { Ticket } from '~~/store/ticket/ticket';
 import TextInput from './TextInput.vue';
 
-const ticket: TicketForm = reactive({
+const ticket: Ticket = reactive({
   title: '',
   note: '',
   assignTo: '',
