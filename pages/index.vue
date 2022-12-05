@@ -168,10 +168,7 @@ async function handleUpdateTicket(): Promise<void> {
   });
 }
 
-function openModal(typeOfModal: string, ticket?: Ticket): void {
-  if (ticket) {
-    selectedTicket.value = toRaw(ticket);
-  }
+function openModal(typeOfModal: string): void {
   modal_type.value = typeOfModal;
   errMsg.value = '';
   isVisible.value = true;
@@ -223,7 +220,7 @@ function _isRegisterModal(modal_type: string): boolean {
       <Table
         :tickets-list="tableData"
         @handle-sync-data="getListOfTickets"
-        @open-modal="(ticket: Ticket) => openModal(MODAL_TYPE.UPDATE, ticket)"
+        @open-modal="(ticket: Ticket) => {selectedTicket = ticket; openModal(MODAL_TYPE.UPDATE)}"
         @on-delete="deleteTask"
       />
     </div>
