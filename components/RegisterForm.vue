@@ -4,6 +4,7 @@ import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { Ticket } from '~~/store/ticket/ticket';
 import TextInput from './TextInput.vue';
+import { formatDate } from '~~/utils/dateFormat';
 
 const ticket: Ticket = reactive({
   title: '',
@@ -12,14 +13,6 @@ const ticket: Ticket = reactive({
   expiredDate: new Date(),
   isCompleted: false,
 });
-
-function format(date: Date) {
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
-
-  return `Expired date: ${day}/${month}/${year}`;
-}
 
 defineExpose({ ticket });
 </script>
@@ -31,7 +24,7 @@ defineExpose({ ticket });
     <TextInput :placeholder="'Assign this to someone'" v-model:text="ticket.assignTo" />
     <Datepicker
       v-model="ticket.expiredDate"
-      :format="format"
+      :format="formatDate"
       autoApply
       :required="true"
       :minDate="new Date()"

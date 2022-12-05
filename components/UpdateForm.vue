@@ -5,6 +5,7 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import { Ticket } from '~~/store/ticket/ticket';
 import TextInput from './TextInput.vue';
 import { Tag } from '.';
+import { formatDate } from '~~/utils/dateFormat';
 
 const prop = defineProps<{
   selectedTicket?: Ticket;
@@ -19,14 +20,6 @@ const ticket = reactive({
   expiredDate: selectedTicket?.expiredDate,
   isCompleted: selectedTicket?.isCompleted,
 });
-
-function format(date: Date) {
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
-
-  return `Expired date: ${day}/${month}/${year}`;
-}
 
 defineExpose({ ticket });
 </script>
@@ -52,7 +45,7 @@ defineExpose({ ticket });
     <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Expired date</label>
     <Datepicker
       v-model="ticket.expiredDate"
-      :format="format"
+      :format="formatDate"
       autoApply
       :required="true"
       :minDate="new Date()"

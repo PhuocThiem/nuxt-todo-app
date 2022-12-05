@@ -47,7 +47,7 @@ function goToTaskDetail(id?: number): void {
             </div>
           </td>
           <td class="text-center border-r-2 border-white">
-            {{ moment(ticket?.expiredDate).format('L') }}
+            {{ moment(ticket?.expiredDate).format("DD/MM/YYYY") }}
           </td>
           <td class="flex flex-row justify-between p-2 h-full items-center">
             <button

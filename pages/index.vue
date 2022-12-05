@@ -136,7 +136,6 @@ async function handleCreateTicket(): Promise<void> {
   await useFetch(ENDPOINT.TICKETS, {
     method: 'POST',
     baseURL,
-    // body: { ...data, expiredDate: data.expiredDate.toISOString() },
     body: data,
     onResponse({ response }) {
       if (response?.ok) {
@@ -192,6 +191,16 @@ async function deleteTask(id: number): Promise<void> {
 function _isRegisterModal(): boolean {
   return modal_type.value === MODAL_TYPE.CREATE;
 }
+
+function getModalObject() {
+  return {
+    title: _isRegisterModal() ? MODAL_TYPE.CREATE : MODAL_TYPE.UPDATE,
+    button: {
+      title: _isRegisterModal() ? 'Create' : 'Update',
+      onclick: _isRegisterModal() ? handleCreateTicket : handleUpdateTicket,
+    },
+  };
+}
 </script>
 
 <template>
@@ -229,11 +238,8 @@ function _isRegisterModal(): boolean {
       v-model:visible="isVisible"
       :maskClosable="false"
       :offsetTop="200"
-      :title="_isRegisterModal() ? MODAL_TYPE.CREATE : MODAL_TYPE.UPDATE"
-      :okButton="{
-        text: _isRegisterModal() ? 'Create' : 'Update',
-        onclick: _isRegisterModal() ? handleCreateTicket : handleUpdateTicket,
-      }"
+      :title="getModalObject().title"
+      :okButton="getModalObject().button"
       :closable="false"
     >
       <p v-if="errMsg" class="text-red-600">{{ errMsg }}</p>
