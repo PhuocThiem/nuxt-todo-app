@@ -3,7 +3,7 @@ import { Modal } from 'usemodal-vue3';
 
 import { ENDPOINT } from '~~/constants/endpoint';
 import { useTicketStore } from '~~/store/ticket';
-import { TicketForm, Ticket } from '~~/store/ticket/ticket';
+import { Ticket } from '~~/store/ticket/ticket';
 import {
   PageTitle,
   Table,
@@ -14,8 +14,9 @@ import {
   RegisterForm,
   UpdateForm,
   ErrorMessage,
+  Notification,
 } from '~~/components';
-import { SORT_TYPE, SORT_FIELD, MODAL_TYPE } from '~~/constants';
+import { SORT_TYPE, SORT_FIELD, MODAL_TYPE, STATUS, MESSAGE } from '~~/constants';
 
 useHead({
   titleTemplate: 'Todo list',
@@ -34,7 +35,6 @@ const tableData = ref<Ticket[]>([]);
 const searchData = ref<Ticket[]>([]);
 const timeoutID = ref<any>(null);
 const isVisible = ref<boolean>(false);
-const errMsg = ref<string>('');
 const searchText = ref<string>('');
 const createFormRef = ref<any>(null);
 const updateFormRef = ref<any>(null);
@@ -42,6 +42,11 @@ const modal_type = ref<string>('');
 const selectedTicket = ref<Ticket>();
 const selectTitleValue = ref<number>(SORT_TYPE['Choose type']);
 const selectExpiredValue = ref<number>(SORT_TYPE['Choose type']);
+
+const isShow = ref<boolean>(false);
+const noticeTimeout = ref<any>();
+const noticeStatus = ref<string>('');
+const noticeMessage = ref<string>('');
 
 const { $sortTitleAsc, $sortExpiredAsc, $sortTitleDsc, $sortExpiredDsc } = useNuxtApp();
 
@@ -141,10 +146,11 @@ async function handleCreateTicket(): Promise<void> {
       if (response?.ok) {
         getListOfTickets();
         isVisible.value = false;
+        showNotification(STATUS.SUCCESS, MESSAGE.CREATE_SUCCESS);
       }
     },
-    onResponseError({ response }) {
-      errMsg.value = response.statusText;
+    onResponseError() {
+      showNotification(STATUS.ERROR, MESSAGE.CREATE_FAILED);
     },
   });
 }
@@ -159,17 +165,17 @@ async function handleUpdateTicket(): Promise<void> {
       if (response?.ok) {
         getListOfTickets();
         isVisible.value = false;
+        showNotification(STATUS.SUCCESS, MESSAGE.UPDATE_SUCCESS);
       }
     },
-    onResponseError({ response }) {
-      errMsg.value = response.statusText;
+    onResponseError() {
+      showNotification(STATUS.ERROR, MESSAGE.UPDATE_FAILED);
     },
   });
 }
 
 function openModal(typeOfModal: string): void {
   modal_type.value = typeOfModal;
-  errMsg.value = '';
   isVisible.value = true;
 }
 
@@ -180,10 +186,11 @@ async function deleteTask(id: number): Promise<void> {
     onResponse({ response }) {
       if (response?.ok) {
         getListOfTickets();
+        showNotification(STATUS.SUCCESS, MESSAGE.DELETE_SUCCESS);
       }
     },
-    onResponseError({ response }) {
-      errMsg.value = response.statusText;
+    onResponseError() {
+      showNotification(STATUS.ERROR, MESSAGE.DELETE_FAILED);
     },
   });
 }
@@ -201,11 +208,28 @@ function getModalObject() {
     },
   };
 }
+
+function showNotification(status: string, message: string) {
+  noticeStatus.value = status;
+  noticeMessage.value = message;
+  isShow.value = true;
+  clearTimeout(noticeTimeout.value);
+  const delayTimeout = 4000;
+  noticeTimeout.value = setTimeout(() => {
+    isShow.value = false;
+    noticeStatus.value = '';
+    noticeMessage.value = '';
+  }, delayTimeout);
+}
 </script>
 
 <template>
   <div>
     <PageTitle v-slot="{ page }">Home {{ page }}</PageTitle>
+    <Transition name="fade">
+      <Notification :status="noticeStatus" :is-visible="isShow" :message="noticeMessage" />
+    </Transition>
+
     <div class="flex flex-col p-3 w-full h-full" v-if="!error">
       <div class="flex flex-row justify-start w-full items-center h-20 gap-2">
         <SearchInput
@@ -242,9 +266,20 @@ function getModalObject() {
       :okButton="getModalObject().button"
       :closable="false"
     >
-      <p v-if="errMsg" class="text-red-600">{{ errMsg }}</p>
       <RegisterForm v-if="_isRegisterModal()" ref="createFormRef" />
       <UpdateForm v-else ref="updateFormRef" :selected-ticket="selectedTicket" />
     </Modal>
   </div>
 </template>
+
+<style scoped lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

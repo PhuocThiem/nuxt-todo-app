@@ -9,6 +9,7 @@ import SearchInput from './SearchInput.vue';
 import RegisterForm from './RegisterForm.vue';
 import UpdateForm from './UpdateForm.vue';
 import ErrorMessage from './ErrorMessage.vue';
+import Notification from './Notification.vue';
 
 export {
   PageTitle,
@@ -22,4 +23,5 @@ export {
   RegisterForm,
   UpdateForm,
   ErrorMessage,
+  Notification,
 };
