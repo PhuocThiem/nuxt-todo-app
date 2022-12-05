@@ -14,7 +14,7 @@ defineProps<{
 
 defineEmits<{ (e: 'open-modal', ticket: Ticket): void; (e: 'on-delete', id: number): void }>();
 
-function goToTaskDetail(id: number): void {
+function goToTaskDetail(id?: number): void {
   router.push({ path: `tasks/${id}` });
 }
 </script>
